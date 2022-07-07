@@ -8,28 +8,33 @@
 </head>
 <body>
   <script>
-   
-  
+    
+   let surname;
+   let namee;
+   let patronymic;
+   let age; 
+   let b;
+
   do {
-    var surname =prompt('Введите вашу фамилию');
+    surname =prompt('Введите вашу фамилию');
   } while (isNaN(surname) == false || surname ==="");
   
   do {
-    var namee =prompt('Введите ваше имя');
+    namee =prompt('Введите ваше имя');
   } while (isNaN(namee) == false || namee ==="");
 
   do {
-    var patronymic =prompt('Введите ваше отчество');
+    patronymic =prompt('Введите ваше отчество');
   } while (isNaN(patronymic) == false || patronymic ==="");
 
   do {
-    var age = parseInt(prompt('Введите возраст в годах'));
+    age = parseInt(prompt('Введите возраст в годах'));
   } while (isNaN(age) || age > 100);
   
   
-  var daysAge = age * 365;
-  var after5 = age + 5;
-  var gender = confirm('Ваш пол - мужской?');
+  let daysAge = age * 365;
+  let after5 = age + 5;
+  let gender = confirm('Ваш пол - мужской?');
 
   if (age > 63 && gender===true) {
     b = ('ваше ФИО: '+ surname + ' ' + namee + ' ' + patronymic + '\n' + 'ваш возраст в годах: ' + age + '\n' + 'ваш возраст в днях: ' + daysAge + '\n' + 'через 5 лет вам будет: ' + after5 + '\n' + 'ваш пол: мужской \n' + 'вы на пенсии: да');
@@ -38,7 +43,7 @@
     b = ('ваше ФИО: '+ surname + ' ' + namee + ' ' + patronymic + '\n' + 'ваш возраст в годах: ' + age + '\n' + 'ваш возраст в днях: ' + daysAge + '\n' + 'через 5 лет вам будет: ' + after5 + '\n' + 'ваш пол: мужской \n' + 'вы на пенсии: нет');
   }
   else if (age > 58 && gender===false) {
-    b = ('ваше ФИО: '+ surname + ' ' + namee + ' ' + patronymic + '\n' + 'ваш возраст в годах: ' + age + '\n' + 'ваш возраст в днях: ' + daysAge + '\n' + 'через 5 лет вам будет: ' + after5 + '\n' + 'ваш пол: женский \n' + 'вы на пенсии: да');Некриш
+    b = ('ваше ФИО: '+ surname + ' ' + namee + ' ' + patronymic + '\n' + 'ваш возраст в годах: ' + age + '\n' + 'ваш возраст в днях: ' + daysAge + '\n' + 'через 5 лет вам будет: ' + after5 + '\n' + 'ваш пол: женский \n' + 'вы на пенсии: да');
   }
   else if (age < 58 && gender===false) {
     b = ('ваше ФИО: '+ surname + ' ' + namee + ' ' + patronymic + '\n' + 'ваш возраст в годах: ' + age + '\n' + 'ваш возраст в днях: ' + daysAge + '\n' + 'через 5 лет вам будет: ' + after5 + '\n' + 'ваш пол: женский \n' + 'вы на пенсии: нет');
