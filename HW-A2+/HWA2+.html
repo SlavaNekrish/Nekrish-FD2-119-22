@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A2+</title>
+</head>
+<body>
+  <script>
+      let deliteSpaces = function(anyString) {
+      //Complete this function :)
+      
+      console.log(anyString);
+     
+      while (anyString.startsWith(' '))
+      anyString = anyString.substring(1);
+      anyString = "%%" + anyString; 
+
+      while (anyString.endsWith(' '))
+      anyString = anyString.substring(0, anyString.length - 1);
+      anyString += "%%";
+      
+      return anyString;
+    }
+
+  console.log(deliteSpaces(prompt('Введите слово или несколько слов')));  
+
+  </script>
+</body>
+</html>
