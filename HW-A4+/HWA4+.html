@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+function isPalindromeRecursive (fraze) {
+  
+  fraze = fraze.toLowerCase().replace(/[\s.,%!?ьъ]/g, '').split('ё').join('е');
+
+  const isLessThan2 = fraze.length < 2;
+  const firstAndLastEqual = fraze.slice(0, 1) === fraze.slice(-1);
+  return !isLessThan2 && firstAndLastEqual 
+    ? isPalindromeRecursive(fraze.slice(1, -1)) 
+    : isLessThan2;
+ 
+} 
+ 
+    alert(isPalindromeRecursive(prompt("Напишите фразу для проверки на полиндром", "заказ")));
+
+  </script>
+</body>
+</html>
