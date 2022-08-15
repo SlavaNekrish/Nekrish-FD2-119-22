@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    
+
+function checkConcatenatedSum(genNum,rep) {
+  let sum = 0;
+  let x = genNum;
+        while (x > 0) {
+            let r = x % 10;
+            let a = r;
+            for (let i = 1; i < rep; i++) {
+                a = a * 10 + r;
+            }
+            sum += a;
+            x /= 10;
+        }
+        console.log(sum);
+        return sum == genNum ? false : true;
+    }
+
+
+console.log(checkConcatenatedSum(2997, 3))
+
+</script>
+  
+</body>
+</html>
