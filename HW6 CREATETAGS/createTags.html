@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Tags</title>
+  <style>
+    body {
+      margin: 20px 0px 0px 20px;
+    }
+
+    input {
+      display: none;
+      background-color: rgb(240, 169, 143);
+      border-radius: 3px;
+    }
+
+    button {
+      width: 60px;
+      background-color: lightblue;
+      border-radius: 3px;
+      margin-bottom: 5px;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <button onclick = "createTag('h1')">H1</button><input type="text" placeholder='h1'><br> 
+  <button onclick = "createTag('h2')">H2</button><input type="text" placeholder='h2'><br> 
+  <button onclick = "createTag('h3')">H3</button><input type="text" placeholder='h3'><br> 
+  <button onclick = "createTag('h4')">H4</button><input type="text" placeholder='h4'><br> 
+  <button onclick = "createTag('h5')">H5</button><input type="text" placeholder='h5'><br> 
+  <button onclick = "createTag('h6')">H6</button><input type="text" placeholder='h6'><br> 
+  <button onclick = "createTag('p')">P</button><input type="text" placeholder='p'><br> 
+  <button onclick = "createTagUl()">UL</button><button onclick = "createArrLi()">+</button><input type="text" placeholder='li'><br> 
+  
+  <div id="placeForTags"></div>
+  
+  <script>
+
+  const createTag = function (tag) {
+    const variety = document.createElement(tag);
+    document.querySelector(`[placeholder=${tag}]`).style.display = "inline";
+    variety.innerHTML = document.querySelector(`[placeholder=${tag}]`).value; 
+    document.getElementById("placeForTags").appendChild(variety);
+  }
+
+  const arrLi =[];
+  
+  const createArrLi = function () {
+    document.querySelector("[placeholder='li']").style.display = "inline";
+    const variety = document.querySelector("[placeholder='li']").value;
+    arrLi.push(variety);
+  }
+  
+  function createTagUl() {
+
+    arrLi.shift();
+    const variety = document.createElement('ul');
+
+    let str='';
+    for ( let i=0; i<arrLi.length; i++ )
+        str+="<li>"+arrLi[i]+"</li>";
+
+    variety.innerHTML = str;
+    document.getElementById("placeForTags").appendChild(variety);
+    document.querySelector("[placeholder='li']").style.display = "none";
+    arrLi.length = 0;
+    str='';
+    }
+
+  </script>
+</body>
+</html>
