@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    h1 {
+      color: magenta;
+    }
+
+    p {
+      color: burlywood; 
+    }
+
+    span {
+      color: springgreen;
+    }
+  </style>
+</head>
+<body>
+  <input type="text1" placeholder='h1'> <button onclick = "createTag('h1')">H1</button> <br> 
+  <input type="text" placeholder='p'> <button onclick = "createTag('p')">P</button> <br> 
+  <input type="text" placeholder='span'> <button onclick = "createTag('span')">Span</button> <br> 
+
+  <div id="placeForTags"></div>
+
+
+<script>
+
+   const createTag = function (tag) {
+    const variety = document.createElement(tag);
+    variety.innerHTML = document.querySelector(`[placeholder=${tag}]`).value; 
+    document.getElementById("placeForTags").appendChild(variety);
+  }
+
+</script>
+
+</body>
+</html>
