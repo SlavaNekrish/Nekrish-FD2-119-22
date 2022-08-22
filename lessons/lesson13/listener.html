@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>listener</title>
+</head>
+  <style>
+    .red {
+      width: 600px;
+      height: 600px;
+      background-color: red;
+      position: relative;
+    }
+
+    .lightgreen {
+      width: 50px;
+      height: 50px;
+      background-color: lightgreen;
+      position: absolute;
+    }
+
+
+  </style>
+<body>
+  <div class="red"><div class="lightgreen"></div>  </div>
+
+
+  <script>
+
+    const lightgreen = document.getElementsByClassName('lightgreen');
+
+    let leftCoordinate = 0;
+    let topCoordinate = 0;
+
+    window.addEventListener('keydown', (e) => {
+      // 
+      switch(e.keyCode){
+        case 39: leftCoordinate += 10; break;
+        case 37: leftCoordinate += -10; break;
+        case 40: topCoordinate += 10; break;
+        case 38: topCoordinate += -10; break;
+
+      }
+      
+        if (leftCoordinate >= 560) leftCoordinate = 550; 
+        if (leftCoordinate < 0) leftCoordinate = 0; 
+        if (topCoordinate < 0) topCoordinate = 0; 
+        if (topCoordinate >= 560) topCoordinate = 550; 
+
+      lightgreen[0].style.left = leftCoordinate + 'px';
+      lightgreen[0].style.top = topCoordinate + 'px';
+    })
+
+
+  </script>
+</body>
+</html>
