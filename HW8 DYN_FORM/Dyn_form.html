@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DYN_FORM</title>
+</head>
+<body>
+  <div id="placeForForm"></div>
+
+  <script>
+    const formDef1 = 
+    [
+      {label: 'Название сайта:', kind: 'longtext', name: 'sitename'},
+      {label: 'URL сайта:', kind: 'longtext', name: 'siteurl'},
+      {label: 'Посетителей в сутки:', kind: 'number', name: 'visistors'},
+      {label: 'E-mail для связи:', kind: 'shorttext', name: 'email'},
+      {label: 'Рубрика каталога:', kind: 'combo', name: 'division',
+        variants: [{text: 'здоровье', value: 1}, {text: 'домашний уют', value: 2}, {text: 'бытовая техника', value: 3}]},
+      {label: 'Размещение:', kind: 'radio', name: 'payment',
+        variants: [{text: 'бесплатное', value: 1}, {text: 'платное', value: 2}, {text: 'VIP', value: 3}]},  
+      {label: 'Разрешить отзывы:', kind: 'check', name: 'votes'},
+      {label: 'Описание сайта:', kind: 'memo', name: 'description'},
+      {caption: 'Опубликовать', kind: 'submit'},
+    ];
+
+    const formDef2 = 
+    [
+      {label: 'Фамилия:', kind: 'longtext', name: 'lastname'},
+      {label: 'Имя:', kind: 'longtext', name: 'firstname'},
+      {label: 'Отчество:', kind: 'longtext', name: 'secondname'},
+      {label: 'Возраст:', kind: 'number', name: 'age'},
+      {caption: 'Зарегистрироваться', kind: 'submit'},
+    ]
+
+    let createForm = (formArr) => {   
+      let frm = document.createElement('form');
+      document.getElementById("placeForForm").appendChild(frm);
+      
+      frm.action = "https://fe.it-academy.by/TestForm.php";
+      frm.id = `${formArr}`;
+      
+      for (let val of formArr) {
+        let variety;
+        let inpName;
+        let br;
+
+        generateForm = (tag) => {
+        variety = document.createElement(tag);
+        variety.style.margin = "0px 0px 10px 160px ";
+        inpName = document.createElement('span');
+        inpName.style.position = "absolute";
+        br = document.createElement('br');
+        variety.name = `${val.name}`;
+        inpName.innerHTML = `${val.label}` + " "; 
+        document.getElementById(`${formArr}`).appendChild(inpName);
+        document.getElementById(`${formArr}`).appendChild(variety);
+        document.getElementById(`${formArr}`).appendChild(br);
+      } 
+
+        switch (val.kind) {
+         
+          case "longtext":
+            generateForm('input');
+            variety.type ="text";                    
+            break;
+          
+          case "number":
+            generateForm('input');
+            variety.type ="number";           
+            break;
+            
+          case "shorttext":
+            generateForm('input');
+            variety.type ="text";                    
+            variety.maxLength ="20";                
+            break;
+
+          case "combo":
+            generateForm('select');
+              
+            for (let variant of val.variants) {                       
+                let opt = document.createElement('option');           
+                opt.value = `${variant.value}`;                       
+                opt.innerHTML = `${variant.text}`;                    
+                variety.appendChild(opt);                             
+            }
+            break;
+          
+          case "radio":
+            generateForm('div');
+
+            for (let variant of val.variants) {                     
+              let rad = document.createElement('input');          
+              rad.type ="radio";                                  
+              rad.value = `${variant.value}`;                     
+              rad.name = "radio";                                 
+              variety.appendChild(rad);                           
+              let span = document.createElement('span');          
+              span.innerHTML = `${variant.text}`;                 
+              variety.appendChild(span);                          
+              span.style.margin = "0px 10px 0px 00px ";           
+              }
+            break;
+
+          case "check":
+            generateForm('input');
+            variety.type ="checkbox";                             
+            break;
+
+            case "memo":
+            generateForm('textarea');
+            variety.cols="21";
+            variety.rows="5";
+            break;
+
+            case "submit":
+              variety = document.createElement('input');
+              document.getElementById(`${formArr}`).appendChild(variety);
+              variety.type ="submit";                            
+              variety.value =`${val.caption}`; 
+              br = document.createElement('br');     
+              document.getElementById(`${formArr}`).appendChild(br);  
+              let hr = document.createElement('hr');    
+              document.getElementById(`${formArr}`).appendChild(hr);   
+            break;
+        }
+      }   
+    }
+
+    createForm(formDef1);
+    createForm(formDef2);
+    
+
+
+  </script>
+</body>
+</html>
