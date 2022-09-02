@@ -34,12 +34,12 @@
       {caption: 'Зарегистрироваться', kind: 'submit'},
     ]
 
-    let createForm = (formArr) => {   
+    let createForm = (formArr, formId) => {   
       let frm = document.createElement('form');
       document.getElementById("placeForForm").appendChild(frm);
       
       frm.action = "https://fe.it-academy.by/TestForm.php";
-      frm.id = `${formArr}`;
+      frm.id = formId;
       
       for (let val of formArr) {
         let variety;
@@ -54,9 +54,9 @@
         br = document.createElement('br');
         variety.name = `${val.name}`;
         inpName.innerHTML = `${val.label}` + " "; 
-        document.getElementById(`${formArr}`).appendChild(inpName);
-        document.getElementById(`${formArr}`).appendChild(variety);
-        document.getElementById(`${formArr}`).appendChild(br);
+        document.getElementById(formId).appendChild(inpName);
+        document.getElementById(formId).appendChild(variety);
+        document.getElementById(formId).appendChild(br);
       } 
 
         switch (val.kind) {
@@ -117,20 +117,20 @@
 
             case "submit":
               variety = document.createElement('input');
-              document.getElementById(`${formArr}`).appendChild(variety);
+              document.getElementById(formId).appendChild(variety);
               variety.type ="submit";                            
               variety.value =`${val.caption}`; 
               br = document.createElement('br');     
-              document.getElementById(`${formArr}`).appendChild(br);  
+              document.getElementById(formId).appendChild(br);  
               let hr = document.createElement('hr');    
-              document.getElementById(`${formArr}`).appendChild(hr);   
+              document.getElementById(formId).appendChild(hr);   
             break;
         }
       }   
     }
 
-    createForm(formDef1);
-    createForm(formDef2);
+    createForm(formDef1, 'form1');
+    createForm(formDef2, 'form2');
     
 
 
