@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ANKETA</title>
+</head>
+<body>
+  <script>
+
+   let surname;
+   let namee;
+   let patronymic;
+   let age; 
+   let b;
+   
+
+  do {
+    surname =prompt('Введите вашу фамилию');
+  } while (isNaN(surname) == false || surname ==="");
+  
+  do {
+    namee =prompt('Введите ваше имя');
+  } while (isNaN(namee) == false || namee ==="");
+
+  do {
+    patronymic =prompt('Введите ваше отчество');
+  } while (isNaN(patronymic) == false || patronymic ==="");
+
+  do {
+    age = parseInt(prompt('Введите возраст в годах'));
+  } while (isNaN(age) || age > 100);
+  
+  
+  let daysAge = age * 365;
+  let after5 = age + 5;
+  let gender = confirm('Ваш пол - мужской?');
+
+  if (age > 63 && gender===true) {
+    b = ('ваш пол: мужской \n' + 'вы на пенсии: да');
+  }
+  else if (age < 63 && gender===true) {
+    b = ('ваш пол: мужской \n' + 'вы на пенсии: нет');
+  }
+  else if (age > 58 && gender===false) {
+    b = ('ваш пол: женский \n' + 'вы на пенсии: да');
+  }
+  else if (age < 58 && gender===false) {
+    b = ('ваш пол: женский \n' + 'вы на пенсии: нет');
+  }
+
+  alert ('ваше ФИО: '+ surname + ' ' + namee + ' ' + patronymic + '\n' + 'ваш возраст в годах: ' + age + '\n' + 'ваш возраст в днях: ' + daysAge + '\n' + 'через 5 лет вам будет: ' + after5 + '\n' + b);
+
+</script>
+  
+</body>
+</html>
