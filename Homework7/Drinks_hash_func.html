@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DRINKS_HASH_FUNC</title>
+</head>
+  <style>
+    [type*="button"] {
+      background-color:aqua;
+      width: 352px;
+      height: 30px;
+      border-radius: 5px;
+      margin-bottom: 5px;
+    }
+
+    div {
+      margin-top: 10px;
+    }
+  </style>
+<body>
+  <input type="text" name="drinkName" value="drinkName">
+  <input type="checkbox" name="alco"><span>Напиток алкогольный?</span> <br>
+  <textarea name="ingridients" id="" cols="45" rows="5"></textarea><br>
+  <input type="button" value="ввод инфо о напитке" onclick="addDrinkFunc()"><br>
+  <input type="button" value="получение инфо о напитке" onclick="getDrinkFunc()"><br>
+  <input type="button" value="удаление инфо о напитке" onclick="deleteDrinkFunc()"><br>
+  <input type="button" value="перечень всех напитков" onclick="showDrinksFunc()">
+  <div id="place"></div>
+
+  
+  <script>
+
+    const drinkStore = new HashStorageFunc();
+
+    function addDrinkFunc () {
+      const addDrincVal = document.querySelector('[name="drinkName"]').value;
+      const isAlco = document.querySelector('[name="alco"]').checked;
+      const ingridients = document.querySelector('[name="ingridients"]').value;
+  
+      drinkStore.addValue(addDrincVal, {'isAlco': isAlco, 'ingridients': ingridients.split(' ')});
+      
+    }
+
+    function getDrinkFunc () {
+      const output = document.getElementById("place");
+      const drincVal = document.querySelector('[name="drinkName"]').value;
+      
+        if ("нет такого напитка" === drinkStore.getValue(drincVal)) {
+          output.innerHTML = "напиток не найден";
+        }
+          else {
+             output.innerHTML = 
+          `<p>напиток <strong>${drincVal}</strong></p>
+          <p>алкогольный: <strong>${drinkStore.getValue(drincVal).isAlco === true? "да" : "нет"}</strong> </p>
+          <p>рецепт приготовления: </p>
+          </p><strong>${drinkStore.getValue(drincVal).ingridients}</strong>, смешать </p>
+          `}
+      }
+
+    function deleteDrinkFunc () {
+      const deleteDrincVal = document.querySelector('[name="drinkName"]').value;
+      drinkStore.deleteValue(deleteDrincVal);
+    }
+
+
+    function showDrinksFunc () {
+      const output = document.getElementById("place");
+
+      output.innerHTML = `${drinkStore.getKeys().join(' / ')}`;
+    }
+
+
+    function HashStorageFunc() {
+      const privateHash = {
+        'b-52' : {
+          isAlco: true,
+          ingridients: ['lemon', 'water', 'rome'],
+        },
+        'moxito' : {
+          isAlco: false,
+          ingridients: ['lime', 'sprite', 'mint'],
+        },
+      };
+
+      this.addValue = function (key, value) {
+        privateHash[key] = value;
+        console.log(privateHash)
+      }
+
+      this.getValue = function (key) {
+        if (key in privateHash) 
+        {return privateHash[key]}
+        else {return 'нет такого напитка'}
+      }
+
+      this.deleteValue = function (key) {
+        delete privateHash[key];
+        console.log(privateHash)
+      }
+
+      this.getKeys = function () {
+        let arr = [];
+        for (key in privateHash) {
+          arr.push(key);
+        }
+        return arr;
+      }
+      
+    }
+   
+    
+  </script>
+</body>
+</html>
