@@ -16,9 +16,13 @@
     position: absolute;
     z-index: 1;
   }
-  /* #second {
-    transition: all ease 500ms;
-  } */
+  #lifetime {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+  }
 </style>
 <body>
   <input type="number" min="200" max="800">
@@ -27,6 +31,7 @@
    <div id="second" class="arrow"></div>
    <div id="minute" class="arrow"></div>
    <div id="hour" class="arrow"></div>
+   <div id="lifetime"></div>
   </div>
   <script>
     const btn = document.getElementsByTagName('button')[0];
@@ -86,7 +91,6 @@
       secondArrow.style.height = radius / 1.015 + "px";
       secondArrow.style.left = Math.round(clockCenterX) + "px";
       secondArrow.style.top = Math.round(clockCenterY - radius / 10) + "px";
-      // secondArrow.style.transform = "rotate(180deg)";
       secondArrow.style.transformOrigin = "10% 10% 0";
 
       const minuteArrow = document.getElementById("minute");  
@@ -94,7 +98,6 @@
       minuteArrow.style.height = radius / 1.12 + "px";
       minuteArrow.style.left = Math.round(clockCenterX) + "px";
       minuteArrow.style.top = Math.round(clockCenterY - radius / 10) + "px";
-      // minuteArrow.style.transform = "rotate(180deg)";
       minuteArrow.style.transformOrigin = "10% 10% 0";
 
       const hourArrow = document.getElementById("hour");  
@@ -102,35 +105,30 @@
       hourArrow.style.height = radius / 1.5 + "px";
       hourArrow.style.left = Math.round(clockCenterX) + "px";
       hourArrow.style.top = Math.round(clockCenterY - radius / 10) + "px";
-      // hourArrow.style.transform = "rotate(180deg)";
       hourArrow.style.transformOrigin = "10% 10% 0";
+
+      // добавляем цифровые часы
+      const lifeTime = document.getElementById("lifetime"); 
+      lifeTime.style.width = radius + "px";
+      lifeTime.style.height = radius / 5 + "px";
+      lifeTime.style.fontSize = radius / 8 + "px";
+      lifeTime.style.left = Math.round(clockCenterX - radius/2) + "px";
+      lifeTime.style.top = Math.round(clockCenterY - radius /2) + "px";
+
 
       // запускаем движение стрелок
       fsec = () => {
           const timeClock = (new Date()).toLocaleTimeString();
-          
-          minuteArrow.style.transform = `rotate(${timeClock.split(':')[1]*6-180 + timeClock.split(':')[2]/10}deg)`;
+          console.log(timeClock);
+          minuteArrow.style.transform = `rotate(${parseInt(timeClock.split(':')[1])*6-180 + parseInt(timeClock.split(':')[2])/10}deg)`;
           hourArrow.style.transform = `rotate(${timeClock.split(':')[0]*30-180 + timeClock.split(':')[1]/2}deg)`;
-          secondArrow.style.transform = `rotate(${timeClock.split(':')[2]*6-180}deg)`;
-          // secondArrow.style.transform = "rotate("+sec+'deg)';
-          // minuteArrow.style.transform = "rotate("+min+'deg)';
-          // hourArrow.style.transform = "rotate("+hour+'deg)';
-          // if (sec+6 == 546) {
-          //   sec = 180;
-          //   min = min + 6;
-          // }
-          // if (min+6 == 546) {
-          //   min = 180;
-          //   hour = hour + 30;
-          // }
-          // sec = sec + 6;
+          secondArrow.style.transform = `rotate(${parseInt(timeClock.split(':')[2])*6-180}deg)`;
+ 
+          lifeTime.innerHTML = timeClock;
         }
       fsec();
       setInterval (fsec, 1000);
-          // let sec = 180;
-          // let min = 180;
-          // let hour = 180;
-
+      
     }
       
 
