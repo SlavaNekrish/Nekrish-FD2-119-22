@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clock_dom</title>
+</head>
+<style>
+  .clock {
+    background-color: #faee0b;
+    position: relative;
+  }
+  .arrow {
+    background-color: black;
+    position: absolute;
+    z-index: 1;
+  }
+  /* #second {
+    transition: all ease 500ms;
+  } */
+</style>
+<body>
+  <input type="number" min="200" max="800">
+  <button>Построить часы</button>
+  <div class="clock">
+   <div id="second" class="arrow"></div>
+   <div id="minute" class="arrow"></div>
+   <div id="hour" class="arrow"></div>
+  </div>
+  <script>
+    const btn = document.getElementsByTagName('button')[0];
+    const inp = document.getElementsByTagName('input')[0];
+    
+    
+    
+    const createClock = () => {
+      btn.style.display = "none";
+      inp.style.display = "none";
+      const clock = document.getElementsByClassName("clock")[0]; 
+
+      // создаём циферблат
+      const width = inp.value * 2;
+      const height = inp.value * 2;
+      const radius = inp.value;
+      clock.style.display = "block";
+      clock.style.width = width + "px";
+      clock.style.height = height+ "px";
+      clock.style.borderRadius = radius + "px";
+
+      const clockCenterX = clock.offsetWidth/2;
+      const clockCenterY = clock.offsetHeight/2;
+      
+      let angle = 0;
+
+      // создаём цифры и круги под них 
+      for (let i = 0; i < 12; i++) {
+        const round = document.createElement('div');
+        clock.appendChild(round);
+        round.style.width = width / 10 + "px";
+        round.style.height = height / 10 + "px";
+        round.style.borderRadius = radius / 10 + "px";
+        round.style.backgroundColor = "lightgreen";
+        round.style.position = "absolute";
+        round.style.display = "flex";
+        round.style.justifyContent = "center";
+        round.style.alignItems = "center";
+        const numb = document.createElement('span');
+        round.appendChild(numb);
+        numb.innerHTML = `${i + 1}`;
+        numb.style.fontWeight = "bold";
+        numb.style.fontSize = `${radius / 12.5}`+"px";
+
+        angle = angle + 30;
+        const roundCenterX = clockCenterX+radius*0.85*Math.sin(angle/180*Math.PI);
+
+        const roundCenterY = clockCenterY-radius*0.85*Math.cos(angle/180*Math.PI); 
+
+        round.style.left = Math.round(roundCenterX-round.offsetWidth/2) + "px";
+        round.style.top = Math.round(roundCenterY-round.offsetHeight/2) + "px";
+      }
+
+      // задаём размеры стрелок и позиционируем их
+      const secondArrow = document.getElementById("second");  
+      secondArrow.style.width = radius / 100 + "px";
+      secondArrow.style.height = radius / 1.015 + "px";
+      secondArrow.style.left = Math.round(clockCenterX) + "px";
+      secondArrow.style.top = Math.round(clockCenterY - radius / 10) + "px";
+      // secondArrow.style.transform = "rotate(180deg)";
+      secondArrow.style.transformOrigin = "10% 10% 0";
+
+      const minuteArrow = document.getElementById("minute");  
+      minuteArrow.style.width = radius / 45 + "px";
+      minuteArrow.style.height = radius / 1.12 + "px";
+      minuteArrow.style.left = Math.round(clockCenterX) + "px";
+      minuteArrow.style.top = Math.round(clockCenterY - radius / 10) + "px";
+      // minuteArrow.style.transform = "rotate(180deg)";
+      minuteArrow.style.transformOrigin = "10% 10% 0";
+
+      const hourArrow = document.getElementById("hour");  
+      hourArrow.style.width = radius / 30 + "px";
+      hourArrow.style.height = radius / 1.5 + "px";
+      hourArrow.style.left = Math.round(clockCenterX) + "px";
+      hourArrow.style.top = Math.round(clockCenterY - radius / 10) + "px";
+      // hourArrow.style.transform = "rotate(180deg)";
+      hourArrow.style.transformOrigin = "10% 10% 0";
+
+      // запускаем движение стрелок
+      fsec = () => {
+          const timeClock = (new Date()).toLocaleTimeString();
+          
+          minuteArrow.style.transform = `rotate(${timeClock.split(':')[1]*6-180 + timeClock.split(':')[2]/10}deg)`;
+          hourArrow.style.transform = `rotate(${timeClock.split(':')[0]*30-180 + timeClock.split(':')[1]/2}deg)`;
+          secondArrow.style.transform = `rotate(${timeClock.split(':')[2]*6-180}deg)`;
+          // secondArrow.style.transform = "rotate("+sec+'deg)';
+          // minuteArrow.style.transform = "rotate("+min+'deg)';
+          // hourArrow.style.transform = "rotate("+hour+'deg)';
+          // if (sec+6 == 546) {
+          //   sec = 180;
+          //   min = min + 6;
+          // }
+          // if (min+6 == 546) {
+          //   min = 180;
+          //   hour = hour + 30;
+          // }
+          // sec = sec + 6;
+        }
+      fsec();
+      setInterval (fsec, 1000);
+          // let sec = 180;
+          // let min = 180;
+          // let hour = 180;
+
+    }
+      
+
+    btn.addEventListener('click', createClock, true);
+    
+   
+
+   
+  </script>
+</body>
+</html>
