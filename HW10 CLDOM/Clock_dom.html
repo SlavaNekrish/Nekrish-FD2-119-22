@@ -118,13 +118,13 @@
 
       // запускаем движение стрелок
       fsec = () => {
-          const timeClock = (new Date()).toLocaleTimeString();
-          console.log(timeClock);
-          minuteArrow.style.transform = `rotate(${parseInt(timeClock.split(':')[1])*6-180 + parseInt(timeClock.split(':')[2])/10}deg)`;
-          hourArrow.style.transform = `rotate(${timeClock.split(':')[0]*30-180 + timeClock.split(':')[1]/2}deg)`;
-          secondArrow.style.transform = `rotate(${parseInt(timeClock.split(':')[2])*6-180}deg)`;
+          const timeClock = new Date();
+          console.log(timeClock.toLocaleTimeString());
+          minuteArrow.style.transform = `rotate(${timeClock.getMinutes()*6-180 + timeClock.getSeconds()/10}deg)`;
+          hourArrow.style.transform = `rotate(${timeClock.getHours()*30-180 + timeClock.getMinutes()/2}deg)`;
+          secondArrow.style.transform = `rotate(${timeClock.getSeconds()*6-180}deg)`;
  
-          lifeTime.innerHTML = timeClock;
+          lifeTime.innerHTML = timeClock.toLocaleTimeString();
         }
       fsec();
       setInterval (fsec, 1000);
