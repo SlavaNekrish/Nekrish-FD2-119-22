@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TENNIS</title>
+<style>
+  #court {
+    background-color: yellow;
+    position: relative;
+  }
+  #firstPlayer {
+    background-color: green;
+    position: absolute;
+  }
+  #secondPlayer {
+    background-color: fuchsia;
+  }
+  #ball {
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+  }
+
+</style>
+</head>
+<body>
+  <button>старт!</button>
+  <div id="score"></div>
+  <div id="court">
+    <div id="firstPlayer"></div>
+    <div id="secondPlayer"></div>
+    <div id="ball"></div>
+  </div>
+  <script>
+    // создаём поле для игры
+    const court = document.getElementById("court");
+    const width = "600px";
+    const height = "400px";
+    court.style.width = width;
+    court.style.height = height;
+    
+    // создаём мяч для игры
+    const ball = document.getElementById("ball");
+    ball.style.width = "30px";
+    ball.style.height = "30px";
+    ball.style.left = `${600/2}px`;
+    ball.style.top = `${400/2}px`;
+
+    // создаём ракетки 
+    const firstPlayer = document.getElementById("firstPlayer");
+    firstPlayer.style.width = "12px";
+    firstPlayer.style.height = "120px";
+    
+    let topCoordinate = 0;
+
+    document.addEventListener ('keydown', (e) => {
+      switch (e.keyCode) {
+        case 16: 
+          topCoordinate += 10;
+          firstPlayer.style.transform = `translate(0px, ${topCoordinate}px`;
+          break; 
+        case 17:
+          topCoordinate -= 10;
+          firstPlayer.style.transform = `translate(0px, ${topCoordinate}px`;
+          break;
+      }})
+    
+      
+    
+
+
+  </script>
+</body>
+</html>
