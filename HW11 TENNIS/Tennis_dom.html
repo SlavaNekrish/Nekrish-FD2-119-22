@@ -53,20 +53,79 @@
     firstPlayer.style.width = "12px";
     firstPlayer.style.height = "120px";
     
-    let topCoordinate = 0;
 
-    document.addEventListener ('keydown', (e) => {
+    // Запускаем движение ракеток
+
+    
+      let topCoordinate = 0;
+      document.addEventListener ('keydown', (e) => {
       switch (e.keyCode) {
         case 16: 
-          topCoordinate += 10;
-          firstPlayer.style.transform = `translate(0px, ${topCoordinate}px`;
+            rocketMove1();
           break; 
         case 17:
-          topCoordinate -= 10;
-          firstPlayer.style.transform = `translate(0px, ${topCoordinate}px`;
+            rocketMove2();
           break;
+      
       }})
+
+      const rocketMove1 = () => {
+        topCoordinate += -3;
+        if (topCoordinate <= 0) firstPlayer.style.transform = "translate(0px, 0px)"        // почему не работает условие??
+        else firstPlayer.style.transform = `translate(0px, ${topCoordinate}px)`; 
+      }
+
+      const rocketMove2 = () => {
+        topCoordinate += 3;
+        if (topCoordinate > 280) firstPlayer.style.transform = "translate(0px, 280px)"
+        else firstPlayer.style.transform = `translate(0px, ${topCoordinate}px)`; 
+       
+      }
+
+    const tick = () => {
+
+            rocketMove1();
+            rocketMove2();
+            requestAnimationFrame(tick);
+          }
+
     
+    tick();
+
+
+
+
+
+
+
+    
+    // let topCoordinate = 0;
+    // let timer = 0;
+    // document.addEventListener ('keydown', (e) => {
+      
+    //   switch (e.keyCode) {
+    //     case 16: 
+    //       const tick1 = () => {
+    //         topCoordinate += 2;
+    //         firstPlayer.style.transform = `translate(0px, ${topCoordinate}px`; 
+    //         requestAnimationFrame(tick1);
+    //       }
+    //       tick1();
+    //       break; 
+    //     case 17:
+    //     const tick2 = () => {
+    //         cancelAnimationFrame
+    //         topCoordinate += -2;
+    //         firstPlayer.style.transform = `translate(0px, ${topCoordinate}px`; 
+    //         requestAnimationFrame(tick2);
+    //       }
+    //       tick2();
+    //       break;
+    //   }})
+
+    
+    
+  
       
     
 
