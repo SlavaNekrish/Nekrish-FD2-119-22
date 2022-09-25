@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+    <input type="text" name="phoneName" value="iphone13"><br>
+    <input type="text" name="phoneLink" value="img"><br>
+    <textarea name="Description" cols="30" rows="10"></textarea>
+    <button onclick="addItem()">add</button>
+    <button onclick="render()">render</button>  
+
+    <div id="app"></div>
+<script>
+ const items = [];
+
+
+const addItem = () => { 
+
+
+  const phoneName = document.querySelector('[name="phoneName"]').value;
+  const phoneLink = document.querySelector('[name="phoneLink"]').value;
+  const Description = document.querySelector('[name="Description"]').value;
+  
+  const obj = {
+    phoneName,
+    phoneLink,
+    Description
+  }
+
+  items.push(obj)
+}
+
+  const render = () => {
+    const htmlText = items.reduce((acc, item) => { 
+      return `${acc} <div class="card" style="width: 18rem;">
+          <img src="${item.phoneLink}" alt="Card image cap">
+          <div>
+            <h5 class="card-title">"${item.phoneName}"</h5>
+            <p class="card-text">${item.Description}</p>
+          </div>
+      </div>`
+
+    }, ' ')
+  
+  
+const app = document.getElementById('app');
+app.innerHTML = htmlText
+
+}
+
+  const cardMove = () => {
+
+var card = document.querySelector("[class='card']");
+
+card.onmousedown = function(e) { // 1. отследить нажатие
+
+  // подготовить к перемещению
+  // 2. разместить на том же месте, но в абсолютных координатах
+  card.style.position = 'absolute';
+  moveAt(e);
+  // переместим в body, чтобы мяч был точно не внутри position:relative
+  document.body.appendChild(card);
+
+  card.style.zIndex = 1000; // показывать мяч над другими элементами
+
+  // передвинуть мяч под координаты курсора
+  // и сдвинуть на половину ширины/высоты для центрирования
+  function moveAt(e) {
+    card.style.left = e.pageX - card.offsetWidth / 2 + 'px';
+    card.style.top = e.pageY - card.offsetHeight / 2 + 'px';
+  }
+
+  // 3, перемещать по экрану
+  document.onmousemove = function(e) {
+    moveAt(e);
+  }
+
+  // 4. отследить окончание переноса
+  ball.onmouseup = function() {
+    document.onmousemove = null;
+    ball.onmouseup = null;
+  }
+}
+}
+
+</script>
+
+</body>
+</html>

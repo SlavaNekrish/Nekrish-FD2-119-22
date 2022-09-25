@@ -62,6 +62,7 @@
     // Запускаем движение ракеток
       let topCoordinate1 = 0;
       let topCoordinate2 = 0;
+      
       document.addEventListener ('keydown', (e) => {
       switch (e.keyCode) {
         case 16: 
@@ -76,35 +77,46 @@
         case 40:
             rocketMove4();
           break;
-      
+      }})
+
+      document.addEventListener ('keyup', (e) => {
+      switch (e.keyCode) {
+        case 16: 
+            firstPlayer.style.transform = `translate(0px, ${topCoordinate1+=0}px)`; 
+          break; 
+        case 17:
+            firstPlayer.style.transform = `translate(0px, ${topCoordinate1+=0}px)`; 
+          break; 
+        case 38:
+            secondPlayer.style.transform = `translate(0px, ${topCoordinate2+=0}px)`; 
+          break;
+        case 40:
+            secondPlayer.style.transform = `translate(0px, ${topCoordinate2+=0}px)`; 
+          break;
       }})
 
       const rocketMove1 = () => {
         if (topCoordinate1 >= 0) {
-          topCoordinate1 += -3;
-          firstPlayer.style.transform = `translate(0px, ${topCoordinate1}px)`; 
+          firstPlayer.style.transform = `translate(0px, ${topCoordinate1+=-1}px)`; 
         }
       }
 
       const rocketMove2 = () => {
         if (topCoordinate1 <= 278) {
-          topCoordinate1 += 3;
-          firstPlayer.style.transform = `translate(0px, ${topCoordinate1}px)`; 
+          firstPlayer.style.transform = `translate(0px, ${topCoordinate1+=1}px)`; 
         }
       }
 
       const rocketMove3 = () => {
         if (topCoordinate2 >= 0) {
-          topCoordinate2 += -3;
-          secondPlayer.style.transform = `translate(0px, ${topCoordinate2}px)`; 
+          secondPlayer.style.transform = `translate(0px, ${topCoordinate2+=-1}px)`; 
         }
       }
 
       
       const rocketMove4 = () => {
         if (topCoordinate2 <= 278) {
-          topCoordinate2 += 3;
-          secondPlayer.style.transform = `translate(0px, ${topCoordinate2}px)`; 
+          secondPlayer.style.transform = `translate(0px, ${topCoordinate2+=1}px)`; 
         }
       }
 
@@ -112,8 +124,8 @@
 
             rocketMove1();
             rocketMove2();
-            // rocketMove3();
-            // rocketMove4();
+            rocketMove3();
+            rocketMove4();
             requestAnimationFrame(tick);
           }
 
