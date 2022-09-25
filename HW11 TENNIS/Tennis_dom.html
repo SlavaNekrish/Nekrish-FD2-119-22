@@ -50,11 +50,20 @@
     ball.style.top = `${400/2}px`;
 
     // создаём ракетки 
-    const firstPlayer = document.getElementById("firstPlayer");
+
+    let firstPlayer = {
+      move: false,
+    }
+
+    let secondPlayer = {
+      move: false,
+    }
+    
+    firstPlayer = document.getElementById("firstPlayer");
     firstPlayer.style.width = "12px";
     firstPlayer.style.height = "120px";
 
-    const secondPlayer = document.getElementById("secondPlayer");
+    secondPlayer = document.getElementById("secondPlayer");
     secondPlayer.style.width = "12px";
     secondPlayer.style.height = "120px";
     secondPlayer.style.left = "588px";
@@ -66,56 +75,55 @@
       document.addEventListener ('keydown', (e) => {
       switch (e.keyCode) {
         case 16: 
-            rocketMove1();
+            firstPlayer.move = true;
           break; 
         case 17:
-            rocketMove2();
+            firstPlayer.move = true;
           break;
         case 38:
-            rocketMove3();
+            secondPlayer.move = true;
           break;
         case 40:
-            rocketMove4();
+            secondPlayer.move = true;
           break;
       }})
 
       document.addEventListener ('keyup', (e) => {
       switch (e.keyCode) {
         case 16: 
-            firstPlayer.style.transform = `translate(0px, ${topCoordinate1+=0}px)`; 
+            firstPlayer.move = false;
           break; 
         case 17:
-            firstPlayer.style.transform = `translate(0px, ${topCoordinate1+=0}px)`; 
+            firstPlayer.move = false; 
           break; 
         case 38:
-            secondPlayer.style.transform = `translate(0px, ${topCoordinate2+=0}px)`; 
+            secondPlayer.move = false;
           break;
         case 40:
-            secondPlayer.style.transform = `translate(0px, ${topCoordinate2+=0}px)`; 
+            secondPlayer.move = false;
           break;
       }})
 
       const rocketMove1 = () => {
-        if (topCoordinate1 >= 0) {
+        if (topCoordinate1 >= 0 && firstPlayer.move === true) {
           firstPlayer.style.transform = `translate(0px, ${topCoordinate1+=-1}px)`; 
         }
       }
 
       const rocketMove2 = () => {
-        if (topCoordinate1 <= 278) {
+        if (topCoordinate1 <= 278 && firstPlayer.move === true) {
           firstPlayer.style.transform = `translate(0px, ${topCoordinate1+=1}px)`; 
         }
       }
 
       const rocketMove3 = () => {
-        if (topCoordinate2 >= 0) {
+        if (topCoordinate2 >= 0 && secondPlayer.move === true) {
           secondPlayer.style.transform = `translate(0px, ${topCoordinate2+=-1}px)`; 
         }
       }
-
       
       const rocketMove4 = () => {
-        if (topCoordinate2 <= 278) {
+        if (topCoordinate2 <= 278 && secondPlayer.move === true) {
           secondPlayer.style.transform = `translate(0px, ${topCoordinate2+=1}px)`; 
         }
       }
