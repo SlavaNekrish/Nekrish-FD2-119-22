@@ -59,124 +59,67 @@
       move: false,
     }
     
-    firstPlayer = document.getElementById("firstPlayer");
-    firstPlayer.style.width = "12px";
-    firstPlayer.style.height = "120px";
+    firstPlayer.el = document.getElementById("firstPlayer");
+    firstPlayer.el.style.width = "12px";
+    firstPlayer.el.style.height = "120px";
 
-    secondPlayer = document.getElementById("secondPlayer");
-    secondPlayer.style.width = "12px";
-    secondPlayer.style.height = "120px";
-    secondPlayer.style.left = "588px";
+    secondPlayer.el = document.getElementById("secondPlayer");
+    secondPlayer.el.style.width = "12px";
+    secondPlayer.el.style.height = "120px";
+    secondPlayer.el.style.left = "588px";
 
     // Запускаем движение ракеток
-      let topCoordinate1 = 0;
-      let topCoordinate2 = 0;
+      firstPlayer.topCoordinate = 0;
+      secondPlayer.topCoordinate = 0;
       
       document.addEventListener ('keydown', (e) => {
       switch (e.keyCode) {
         case 16: 
-            firstPlayer.move = true;
+          if (firstPlayer.topCoordinate > 0) 
+            firstPlayer.move = -2;
+            else firstPlayer.move = 0;
           break; 
         case 17:
-            firstPlayer.move = true;
+          if (firstPlayer.topCoordinate <= 275)
+            firstPlayer.move = 2;
+            else firstPlayer.move = 0;
           break;
         case 38:
-            secondPlayer.move = true;
+          if (secondPlayer.topCoordinate > 0) 
+            secondPlayer.move = -2;
+            else secondPlayer.move = 0;
           break;
         case 40:
-            secondPlayer.move = true;
+          if (secondPlayer.topCoordinate <= 275)
+            secondPlayer.move = 2;
+            else secondPlayer.move = 0;
           break;
       }})
 
       document.addEventListener ('keyup', (e) => {
-      switch (e.keyCode) {
-        case 16: 
-            firstPlayer.move = false;
-          break; 
-        case 17:
-            firstPlayer.move = false; 
-          break; 
-        case 38:
-            secondPlayer.move = false;
-          break;
-        case 40:
-            secondPlayer.move = false;
-          break;
-      }})
+        if ([16, 17].includes(e.keyCode))
+          firstPlayer.move = 0;
 
-      const rocketMove1 = () => {
-        if (topCoordinate1 >= 0 && firstPlayer.move === true) {
-          firstPlayer.style.transform = `translate(0px, ${topCoordinate1+=-1}px)`; 
-        }
+        if ([38, 40].includes(e.keyCode))
+          secondPlayer.move = 0;
+      })
+
+      const racketMove1 = () => { 
+          firstPlayer.el.style.transform = `translateY(${firstPlayer.topCoordinate+=firstPlayer.move}px)`; 
       }
 
-      const rocketMove2 = () => {
-        if (topCoordinate1 <= 278 && firstPlayer.move === true) {
-          firstPlayer.style.transform = `translate(0px, ${topCoordinate1+=1}px)`; 
-        }
-      }
-
-      const rocketMove3 = () => {
-        if (topCoordinate2 >= 0 && secondPlayer.move === true) {
-          secondPlayer.style.transform = `translate(0px, ${topCoordinate2+=-1}px)`; 
-        }
-      }
-      
-      const rocketMove4 = () => {
-        if (topCoordinate2 <= 278 && secondPlayer.move === true) {
-          secondPlayer.style.transform = `translate(0px, ${topCoordinate2+=1}px)`; 
-        }
+      const racketMove2 = () => {
+          secondPlayer.el.style.transform = `translateY(${secondPlayer.topCoordinate+=secondPlayer.move}px)`; 
       }
 
     const tick = () => {
-
-            rocketMove1();
-            rocketMove2();
-            rocketMove3();
-            rocketMove4();
+            racketMove1();
+            racketMove2();
             requestAnimationFrame(tick);
           }
 
     
     tick();
-
-
-
-
-
-
-
-    
-    // let topCoordinate = 0;
-    // let timer = 0;
-    // document.addEventListener ('keydown', (e) => {
-      
-    //   switch (e.keyCode) {
-    //     case 16: 
-    //       const tick1 = () => {
-    //         topCoordinate += 2;
-    //         firstPlayer.style.transform = `translate(0px, ${topCoordinate}px`; 
-    //         requestAnimationFrame(tick1);
-    //       }
-    //       tick1();
-    //       break; 
-    //     case 17:
-    //     const tick2 = () => {
-    //         cancelAnimationFrame
-    //         topCoordinate += -2;
-    //         firstPlayer.style.transform = `translate(0px, ${topCoordinate}px`; 
-    //         requestAnimationFrame(tick2);
-    //       }
-    //       tick2();
-    //       break;
-    //   }})
-
-    
-    
-  
-      
-    
-
 
   </script>
 </body>
