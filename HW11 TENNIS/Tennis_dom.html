@@ -13,6 +13,7 @@
   #firstPlayer {
     background-color: green;
     position: absolute;
+
   }
   #secondPlayer {
     background-color: fuchsia;
@@ -54,8 +55,8 @@
       <li id="scoreRigth">0</li>
   </ul>
   <div id="court">
-    <div id="firstPlayer"></div>
-    <div id="secondPlayer"></div>
+    <div id="firstPlayer" style="top: 0px"></div>
+    <div id="secondPlayer" style="top: 0px"></div>
     <div id="ball"></div>
   </div>
   <script>
@@ -144,14 +145,14 @@
 
     let firstPlayer = {
       width: 120,
-      speed: 2,
+      speed: 0,
       score: 0,
       pos : [+document.getElementById("firstPlayer").style.top.split("px").join("")],
     }
 
     let secondPlayer = {
       width: 120,
-      speed: 2,
+      speed: 0,
       score: 0,
       pos : [+document.getElementById("secondPlayer").style.top.split("px").join("")],
     }
@@ -172,42 +173,61 @@
       document.addEventListener ('keydown', (e) => {
       switch (e.keyCode) {
         case 16: 
-            firstPlayer.move = -firstPlayer.speed;
+            firstPlayer.speed = -2;
           break; 
         case 17:
-            firstPlayer.move = firstPlayer.speed;
+            firstPlayer.speed = 2;
           break;
         case 38:
-            secondPlayer.move = -secondPlayer.speed;
+            secondPlayer.speed = -2;
           break;
         case 40:
-            secondPlayer.move = secondPlayer.speed;
+            secondPlayer.speed = 2;
           break;
       }})
 
       document.addEventListener ('keyup', (e) => {
         if ([16, 17].includes(e.keyCode))
-          firstPlayer.move = 0;
+          firstPlayer.speed = 0;
 
         if ([38, 40].includes(e.keyCode))
-          secondPlayer.move = 0;
+          secondPlayer.speed = 0;
       })
 
       const racketMove = () => { 
-        if (firstPlayer.topCoordinate+firstPlayer.move > 0 && firstPlayer.topCoordinate+firstPlayer.move < 280)
-          {
-            firstPlayer.topCoordinate += firstPlayer.move
-          }
-        firstPlayer.el.style.transform = `translateY(${firstPlayer.topCoordinate}px)`; 
+      //   if (firstPlayer.topCoordinate+firstPlayer.move > 0 && firstPlayer.topCoordinate+firstPlayer.move < 280)
+      //     {
+      //       firstPlayer.topCoordinate += firstPlayer.move
+      //     }
+      //   firstPlayer.el.style.transform = `translateY(${firstPlayer.topCoordinate}px)`; 
 
-        if (secondPlayer.topCoordinate+secondPlayer.move > 0 && secondPlayer.topCoordinate+secondPlayer.move < 280)
-          {
-            secondPlayer.topCoordinate += secondPlayer.move
-          }
-        secondPlayer.el.style.transform = `translateY(${secondPlayer.topCoordinate}px)`; 
+      //   if (secondPlayer.topCoordinate+secondPlayer.move > 0 && secondPlayer.topCoordinate+secondPlayer.move < 280)
+      //     {
+      //       secondPlayer.topCoordinate += secondPlayer.move
+      //     }
+      //   secondPlayer.el.style.transform = `translateY(${secondPlayer.topCoordinate}px)`; 
+      // }
+
+      firstPlayer.pos[0] += firstPlayer.speed;
+      
+      document.getElementById("firstPlayer").style.top = firstPlayer.pos[0] + "px";
+      if (firstPlayer.pos[0] > 280) {
+        firstPlayer.pos[0] = 280;
+      }
+      if (firstPlayer.pos[0] < 0) {
+        firstPlayer.pos[0] = 0;
       }
 
-    
+      secondPlayer.pos[0] += secondPlayer.speed;
+      
+      document.getElementById("secondPlayer").style.top = secondPlayer.pos[0] + "px";
+      if (secondPlayer.pos[0] > 280) {
+        secondPlayer.pos[0] = 280;
+      }
+      if (secondPlayer.pos[0] < 0) {
+        secondPlayer.pos[0] = 0;
+      }
+      }
 
       //запускаем движение мяча
 
