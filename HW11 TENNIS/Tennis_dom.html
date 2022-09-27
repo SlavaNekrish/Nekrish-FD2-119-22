@@ -20,6 +20,8 @@
   }
   #ball {
     background-color: red;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     position: absolute;
   }
@@ -27,7 +29,7 @@
 </style>
 </head>
 <body>
-  <button>старт!</button>
+  <button onclick="tick()">старт!</button>
   <div id="score"></div>
   <div id="court">
     <div id="firstPlayer"></div>
@@ -43,11 +45,53 @@
     court.style.height = height;
     
     // создаём мяч для игры
-    const ball = document.getElementById("ball");
-    ball.style.width = "30px";
-    ball.style.height = "30px";
-    ball.style.left = `${600/2}px`;
-    ball.style.top = `${400/2}px`;
+    let ball={
+        posX : 300,
+        posY : 200,
+        speedX : 1,
+        speedY : 1,
+        width : 30,
+        height: 30,
+
+        update: function() {
+            const ballElem=
+                document.getElementById('ball');
+            ballElem.style.left=this.posX+"px";
+            ballElem.style.top=this.posY+"px";
+        }
+    }
+
+    const ballMove = () => {
+      ball.posX+=ball.speedX;
+      ball.posY+=ball.speedY;
+        // вылетел ли мяч правее стены?
+        if ( ball.posX+ball.width>600) {
+            ball.speedX=-ball.speedX;
+            ball.posX=600-ball.width;
+        }
+        // вылетел ли мяч левее стены?
+        if ( ball.posX<0 ) {
+            ball.speedX=-ball.speedX;
+            ball.posX=0;
+        }
+        if ( ball.posY+ball.height>400) {
+            ball.speedY=-ball.speedY;
+            ball.posY=400-ball.width;
+        }
+        if ( ball.posY<0 ) {
+            ball.speedY=-ball.speedY;
+            ball.posY=0;
+        }
+        ball.update();
+    }
+    ball.update();
+
+    // ball = document.getElementById("ball");
+    // ball.style.width = "30px";
+    // ball.style.height = "30px";
+    // ball.style.left = `${600/2}px`;
+    // ball.style.top = `${400/2}px`;
+
 
     // создаём ракетки 
 
@@ -75,14 +119,10 @@
       document.addEventListener ('keydown', (e) => {
       switch (e.keyCode) {
         case 16: 
-          if (firstPlayer.topCoordinate > 0) 
             firstPlayer.move = -2;
-            else firstPlayer.move = 0;
           break; 
         case 17:
-          if (firstPlayer.topCoordinate <= 275)
             firstPlayer.move = 2;
-            else firstPlayer.move = 0;
           break;
         case 38:
           if (secondPlayer.topCoordinate > 0) 
@@ -90,7 +130,7 @@
             else secondPlayer.move = 0;
           break;
         case 40:
-          if (secondPlayer.topCoordinate <= 275)
+          if (secondPlayer.topCoordinate <275)
             secondPlayer.move = 2;
             else secondPlayer.move = 0;
           break;
@@ -105,21 +145,35 @@
       })
 
       const racketMove1 = () => { 
-          firstPlayer.el.style.transform = `translateY(${firstPlayer.topCoordinate+=firstPlayer.move}px)`; 
+        if (firstPlayer.topCoordinate > 0 || firstPlayer.topCoordinate < 278)
+          {
+            firstPlayer.topCoordinate += firstPlayer.move
+          }  else if (firstPlayer.topCoordinate <= 0) 
+          {
+            firstPlayer.topCoordinate = 0
+          } else if (firstPlayer.topCoordinate >= 278) 
+          {
+            firstPlayer.topCoordinate = 278
+          }
+        firstPlayer.el.style.transform = `translateY(${firstPlayer.topCoordinate}px)`; 
       }
 
       const racketMove2 = () => {
           secondPlayer.el.style.transform = `translateY(${secondPlayer.topCoordinate+=secondPlayer.move}px)`; 
       }
 
+      //запускаем движение мяча
+
+
     const tick = () => {
             racketMove1();
             racketMove2();
+            ballMove();
             requestAnimationFrame(tick);
           }
 
     
-    tick();
+    // tick();
 
   </script>
 </body>
