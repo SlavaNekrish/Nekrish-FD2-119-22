@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+.goods {
+  width: 50px;
+  height: 50px;
+  background-color: green
+}
+</style>
+<body>
+
+<div id='app'></div>
+
+<script>
+
+  "use strict";
+
+  window.onhashchange=switchToStateFromURLHash;
+
+
+  function switchToStateFromURLHash() {
+    var URLHash=window.location.hash;
+
+
+    let pageHTML = '';
+    
+    switch ( URLHash ) {
+      case '#main':
+        pageHTML+=`<h3>Главная страница</h3><br><div id="1prod" class="goods">1 товар</div><br>
+                  <div id="2prod" class="goods">2 товар</div><br>
+                  <div id="3prod" class="goods">3 товар</div><br>`;
+        break;
+      case '#basket':
+        pageHTML+="<h3>Корзина</h3>";
+        break;
+      case '#about':
+        pageHTML+="<h3>О нас</h3><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, voluptatibus! Hic animi laboriosam, alias quo voluptatibus odio praesentium minus, qui vero assumenda voluptate nisi voluptas eius omnis, molestiae rerum totam?</p>";
+        break;
+    }
+    document.getElementById('app').innerHTML=pageHTML;
+
+  }
+
+  function switchToState(newState) {
+    location.hash=newState.pagename;
+  }
+
+  function switchToStartScreePage() {
+    switchToState( { pagename:'main' } );
+  }
+
+  function switchToStartPage() {
+    switchToState( { pagename:'basket' } );
+  }
+
+  function switchToSettingsPage() {
+    switchToState( { pagename:'about' } );
+  }
+
+  
+  switchToStateFromURLHash();
+
+</script>
+
+<br>
+<input type=button value='Главная страница магазина' onclick='switchToStartScreePage()'>
+<br>
+<input type=button value='Корзина' onclick='switchToStartPage()'>
+<br>
+<input type=button value='О нас' onclick='switchToSettingsPage()'>
+<br>
+
+
+</body>
+</html>
