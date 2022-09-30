@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tennis</title>
+    <style>
+        #field {
+            width: 600px;
+            height: 300px;
+            background:rgb(220, 178, 178);
+            position: relative;
+        }
+        #leftRocket {
+            width: 5px;
+            height: 150px;
+            background: red;
+            position: absolute;
+        }
+        #rigthRocket {
+            width: 5px;
+            height: 50px;
+            background: red;
+            position: absolute;
+            left:595px;
+        }
+        #ball {
+            background: black;
+            position: absolute;
+        }
+        ul {
+            display: flex;
+            justify-content:space-evenly;
+            padding-top: 130px;
+        }
+        li {
+            font-size: 40px;
+            color: black;
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="field">
+        <div id="leftRocket" style="top: 5px"></div>
+        <div id="rigthRocket" style="top: 100px"></div>
+        <div id="ball" style="width: 10px; height: 10px; top: 150px; left: 300px"></div>
+        <ul>
+            <li id="scoreLeft">0</li>
+            <li>:</li>
+            <li id="scoreRigth">0</li>
+        </ul>
+    </div>
+    
+
+
+    <script>
+
+        const leftRocket = {
+            pos : [+document.getElementById("leftRocket").style.top.split("px").join("")],
+            width: 150,
+            speed: 1,
+            score:0
+        }
+        const rigthRocket= {
+            pos : [+document.getElementById("rigthRocket").style.top.split("px").join("")],
+            width: 50,
+            speed: 0,
+            score:0 
+        }
+        const ball = {
+            speedX: 1,
+            speedY: 1,
+            posY : +document.getElementById("ball").style.top.split("px").join(""),
+            posX : +document.getElementById("ball").style.left.split("px").join("")
+        }
+        let scoreLeft = document.getElementById("scoreLeft");
+        let scoreRigth = document.getElementById("scoreRigth")
+
+        function startGame() {
+
+            requestAnimationFrame(moveBall)
+        }
+
+        startGame()
+
+        function moveBall() {
+
+            if (leftRocket.pos[0] > 150) {
+                leftRocket.speed = -1;
+                leftRocket.pos[0] = 149;
+            }
+            if (leftRocket.pos[0] < 0) {
+                leftRocket.speed = 1;
+                leftRocket.pos[0] = 1
+            }
+            leftRocket.pos[0] += leftRocket.speed;
+
+            document.getElementById("leftRocket").style.top = leftRocket.pos[0] + "px"
+
+            rigthRocket.pos[0] += rigthRocket.speed
+
+            if (rigthRocket.pos[0] > 250) {
+                rigthRocket.pos[0] = 250;
+            }
+            if (rigthRocket.pos[0] < 0) {
+                rigthRocket.pos[0] = 0
+            }
+
+            for (let i = 1; i < leftRocket.width+1; i++) {
+                leftRocket.pos[i]= leftRocket.pos[i-1]+1
+            }
+            for (let i = 1; i < rigthRocket.width+1; i++) {
+            rigthRocket.pos[i]= rigthRocket.pos[i-1]+1
+            }
+
+
+            if (ball.posY > 290) {
+                ball.speedY = -1;
+                ball.posY = 290;
+            }
+            if (ball.posY < 0) {
+                ball.speedY = 1;
+                ball.posY = 0;
+            }
+            for(let k of leftRocket.pos) {
+                if (ball.posX  <5 && ball.posY == k ) {
+                    ball.speedX = 1;
+                    ball.posX = 5;
+                }
+            }
+            for(let k of rigthRocket.pos) {
+                if (ball.posX  >585 && ball.posY == k ) {
+                    ball.speedX = -1;
+                    ball.posX = 585;
+                }
+            }
+            if (ball.posX > 600) {
+                console.log ("bam");
+                leftRocket.score += 1;
+                scoreLeft.innerHTML = leftRocket.score;
+                ball.posX = 300;
+                ball.posY = Math.floor(Math.random( ) * (289+1))
+            }
+            if (ball.posX < 0) {
+                console.log ("bam")
+                rigthRocket.score += 1;
+                scoreRigth.innerHTML = rigthRocket.score;
+                ball.posX = 300;
+                ball.posY = Math.floor(Math.random( ) * (289+1))
+            }
+
+            ball.posY += ball.speedY;
+            ball.posX += ball.speedX;
+
+            document.getElementById("ball").style.top = ball.posY + "px";
+            document.getElementById("ball").style.left = ball.posX + "px";
+
+            document.getElementById("rigthRocket").style.top = rigthRocket.pos[0] + "px"
+
+
+
+
+
+            requestAnimationFrame(moveBall)
+        }
+
+
+        window.addEventListener("keydown", e => {
+        switch (e.keyCode) {
+           
+            case 38: rigthRocket.speed = -2;
+            break;
+
+            case 40: rigthRocket.speed = 2;
+            break;
+        }
+    } );
+    window.addEventListener("keyup", e => {
+        switch (e.keyCode) {
+           
+            case 38: rigthRocket.speed = 0;
+            break;
+
+            case 40: rigthRocket.speed = 0;
+            break;
+        }
+    } );
+
+    </script>
+</body>
+</html>
