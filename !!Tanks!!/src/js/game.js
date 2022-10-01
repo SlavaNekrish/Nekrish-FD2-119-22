@@ -97,10 +97,13 @@ const intervals = () => {
 
         if (['top', 'left', 'right'].includes(direction)) {
           if (bullet.getBoundingClientRect().top < enemy.getBoundingClientRect().bottom && 
+          bullet.getBoundingClientRect().bottom > enemy.getBoundingClientRect().top  && 
           bullet.getBoundingClientRect().right > enemy.getBoundingClientRect().left  && 
           bullet.getBoundingClientRect().left < enemy.getBoundingClientRect().right) {
             enemy.parentNode.removeChild(enemy);
             bullet.parentNode.removeChild(bullet);
+            points += 1;
+            document.querySelector('.inner-points').innerText = points;
           }
         } else {
           if (bullet.getBoundingClientRect().bottom > enemy.getBoundingClientRect().top && 
@@ -108,16 +111,74 @@ const intervals = () => {
           bullet.getBoundingClientRect().left < enemy.getBoundingClientRect().right) {
             enemy.parentNode.removeChild(enemy);
             bullet.parentNode.removeChild(bullet);
+            points += 1;
+            document.querySelector('.inner-points').innerText = points;
           }
         }
+
       });
-     
-      if (enemy.getBoundingClientRect().right >= gameZone.getBoundingClientRect().width) {
-        enemy.style.left = "0px";
+      
+      let direction = enemy.getAttribute('direction');
+
+      switch (direction) {
+        case 'right':
+            if (enemy.getBoundingClientRect().left <= 0) {
+              enemy.parentNode.removeChild(enemy);
+          } else {
+            enemy.style.left = enemy.getBoundingClientRect().left - 11 + "px";
+          }
+        break;
+        case 'left':
+          if (enemy.getBoundingClientRect().right >= gameZone.getBoundingClientRect().width) {
+            enemy.parentNode.removeChild(enemy);
+          } else {
+            enemy.style.left = enemy.getBoundingClientRect().left - 5 + "px";
+          }
+        break;
+        case 'top':
+          if (enemy.getBoundingClientRect().top <= 0) {
+            enemy.parentNode.removeChild(enemy);
+          } else {
+            enemy.style.top = enemy.getBoundingClientRect().top - 8 + "px";
+          }
+        break;
+        case 'bottom':
+          if (enemy.getBoundingClientRect().bottom >= gameZone.getBoundingClientRect().height) {
+            enemy.parentNode.removeChild(enemy);
+          } else {
+            enemy.style.top = enemy.getBoundingClientRect().top - 2 + "px";
+          }
+        break;
       }
-      else enemy.style.left = enemy.getBoundingClientRect().left - 5 + "px";
+     
+      // if (enemy.getBoundingClientRect().right >= gameZone.getBoundingClientRect().width) {
+      //   enemy.parentNode.removeChild(enemy);
+      // }
+      // else enemy.style.left = enemy.getBoundingClientRect().left - 5 + "px";
+    // }
     })
   }, fps)
+  ints.generateEnemy = setInterval(() => {
+
+     let direction = randomInteger(1,4);
+     
+     switch (direction) {
+      case 1: //top:
+        gameZone.innerHTML += `<div class="enemy" style="transform: rotate(-90deg); top: ${gameZone.getBoundingClientRect().height-player.h}px; left: ${randomInteger(0, gameZone.getBoundingClientRect().width-player.w)}px;" direction="top"></div>`; 
+      break;
+      case 2: //left
+        gameZone.innerHTML += `<div class="enemy" style="transform: rotate(-180deg); top: ${randomInteger(0, gameZone.getBoundingClientRect().height-player.h)}px; left: ${gameZone.getBoundingClientRect().width-player.w}px;" direction="right"></div>`; 
+      break;
+      case 3: //bottom
+        gameZone.innerHTML += `<div class="enemy" style="transform: rotate(90deg); top: 0px; left: ${randomInteger(0, gameZone.getBoundingClientRect().width-player.w)}px;" direction="bottom"></div>`; 
+      break;
+      case 4: //right
+        gameZone.innerHTML += `<div class="enemy" style="top: ${randomInteger(0, gameZone.getBoundingClientRect().height-player.h)}px; left: 0px;" direction="left"></div>`; 
+      break;
+    }
+     
+     player.el = document.querySelector(".player"); 
+  }, 3000)
 }
 
 // добавление пули
@@ -184,7 +245,17 @@ const controllers = () => {
   }
 
 
+// Random integer
+function randomInteger(min, max) {
+  // получить случайное число от (min-0.5) до (max+0.5)
+  let rand = min - 0.5 + Math.random() * (max - min + 1);
+  return Math.round(rand);
+}
+
+
+// список переменных
 let gameZone = document.querySelector(".game-zone"),
+points = 0,
 fps = 1000/60,
 player = {
   sprites: {
@@ -215,6 +286,7 @@ ints = {
   run: false,
   bullet: false,
   enemy: false,
+  generateEnemy: false,
 };
 
 
