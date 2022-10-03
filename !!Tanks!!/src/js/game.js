@@ -8,9 +8,63 @@ const game = () => {
 
 // инициализация
 const init = () => {
+
+  if (player.hp === 0) {
+    player.hp = 2;
+    points = 0;
+  }
+
+  document.querySelector('.game-over').classList.remove('on');
+
+  player.x = gameZone.getBoundingClientRect().width/2 - player.w;
+  player.y = gameZone.getBoundingClientRect().height - player.h;
+
   gameZone.innerHTML += `<div class="player" style="left: ${player.x}px; top: ${player.y}px"></div>`;
   player.el = document.querySelector(".player");
+
+  switch (player.hp) {
+    case 2:
+     document.querySelector('.life').innerHTML = `<img src="src/sprites/heart-1.png" class="life_image" alt="heart">`
+    break;
+    case 1:
+      document.querySelector('.life').innerHTML = `<img src="src/sprites/heart-2.png" class="life_image" alt="heart">`
+    break;
+    case 0:
+      document.querySelector('.life').innerHTML = `<img src="src/sprites/heart-3.png" class="life_image" alt="heart">`
+    break;
+  }
+
 }
+
+const gameOver = () => {
+  document.querySelector('.game-over').classList.add('on');
+}
+
+// Restart Game
+const next = () => {
+
+  player.hp -= 1;
+
+  clearInterval(ints.enemy);
+  clearInterval(ints.run);
+  clearInterval(ints.bullet);
+  clearInterval(ints.generateEnemy);
+
+
+  let enemies = document.querySelectorAll('.enemy');
+
+  enemies.forEach((enemy) => { 
+    enemy.parentNode.removeChild(enemy);
+  });
+  player.el.parentNode.removeChild(player.el);
+
+  if (player.hp === 0) {
+    return gameOver()
+  }
+
+  game();
+}
+
 
 // плавность движения игрока
 const intervals = () => {
@@ -86,8 +140,29 @@ const intervals = () => {
     })
   }, fps)
   ints.enemy = setInterval(() =>{
-    let enemies = document.querySelectorAll('.enemy');
+    enemies = document.querySelectorAll('.enemy');
     enemies.forEach((enemy) => { 
+
+      const playerPosTop = player.el.getBoundingClientRect().top,
+            playerPosRight = player.el.getBoundingClientRect().right,
+            playerPosBottom = player.el.getBoundingClientRect().bottom,
+            playerPosLeft = player.el.getBoundingClientRect().left,
+            enemyPosTop = enemy.getBoundingClientRect().top,
+            enemyPosRight = enemy.getBoundingClientRect().right,
+            enemyPosBottom = enemy.getBoundingClientRect().bottom,
+            enemyPosLeft = enemy.getBoundingClientRect().left;
+
+      
+      if (playerPosTop < enemyPosBottom && 
+          playerPosBottom > enemyPosTop && 
+          playerPosRight > enemyPosLeft && 
+          playerPosLeft < enemyPosRight) {
+            next();
+          }
+      
+
+
+
      
       let bullets = document.querySelectorAll('.bullet');
       
@@ -179,6 +254,9 @@ const intervals = () => {
      
      player.el = document.querySelector(".player"); 
   }, 3000)
+  ints.test = setInterval(() => {
+
+  }, 500)
 }
 
 // добавление пули
@@ -271,7 +349,8 @@ player = {
   run: false,
   side: 1, //1 (top), 2(right), 3(bottom), 4(left)
   w: 82,
-  h: 79
+  h: 79,
+  hp: 2,
 },
 bulletInit = {          //  Changed! 2nd
   speed: 15,
@@ -287,6 +366,7 @@ ints = {
   bullet: false,
   enemy: false,
   generateEnemy: false,
+  test: false,
 };
 
 

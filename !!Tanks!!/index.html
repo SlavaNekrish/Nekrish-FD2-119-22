@@ -6,15 +6,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>!!Tanks!!</title>
   <link rel="stylesheet" href="src/css/main.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
 </head>
 </style>
 <body>
-  
+<!--   
   <div class="game-zone">
    <div class="info">
     <span class="player-name">Имя игрока: <span class="inner-name">Слава</span></span>
     <span class="points">Очки: <span class="inner-points">0</span></span>
    </div>
+  </div> -->
+
+  <div class="game-zone">
+    <div class="panel">
+      <div class="info">
+        <span class="player-name">Имя игрока: <span class="inner-name">Слава</span></span>
+        <span class="points">Очки: <span class="inner-points">0</span></span>
+      </div>
+   <div class="life">
+   </div>
+  </div>
+  
+    <div class="game-over">
+      <div class="game-over-info"> 
+        <span>Game Over</span>
+        <a href="#" onclick="game()">Restart Game</a>
+      </div>
+      <div class="blur"></div>
+    </div>
   </div>
   
   <script src="src/js/game.js"></script>

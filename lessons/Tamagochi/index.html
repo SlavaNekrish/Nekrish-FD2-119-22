@@ -1,89 +1,155 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>Document</title>
 </head>
 <body>
 
 <div id='app'></div>
 
+<!--<br>-->
+<!--<input type=button value='Стартовый экран' onclick='switchToStartScreePage()'>-->
+<!--<br>-->
+
+
+<!--<br>-->
+<!--<input type=button value='Игра' onclick='switchToGamePage()'>-->
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
 
-  "use strict";
+    "use strict";
 
-  window.onhashchange=switchToStateFromURLHash;
+    //render function
 
+    const IMG_URL = 'img/';
 
-  function switchToStateFromURLHash() {
-    var URLHash=window.location.hash;
-
-
-    let pageHTML = '';
-    
-    switch ( URLHash ) {
-      case '#start-screen':
-        pageHTML+="<h3>Стартовый экран</h3>";
-        break;
-      case '#start-page':
-        pageHTML+="<h3>Старт</h3>";
-        break;
-      case '#settings-page':
-        pageHTML+="<h3>Настройки</h3>";
-        break;
-      case '#game-page':
-        pageHTML+="<h3>Игра</h3>";
-        break;  
-      case '#exit-page':
-        pageHTML+="<h3>Выход</h3>";
-        break;
+    const setBG = imgName => {
+        const body = document.querySelector('body');
+        body.style.backgroundImage = `url(${IMG_URL}${imgName})`
     }
-    document.getElementById('app').innerHTML=pageHTML;
 
-  }
+    const renderStartScreen = () => {
+        setBG('start.jpg')
 
-  function switchToState(newState) {
-    location.hash=newState.pagename;
-  }
+        return `
+        <h3>Стартовый экран</h3>
+        <input type="button" class="waves-effect waves-light btn-large" value="Старт" onclick="switchToStartPage()">
+        <br>
+        <input type="button" class="waves-effect waves-light btn-large" value="Настройки" onclick="switchToSettingsPage()">
+        <br>
+        <input type="button" class="waves-effect waves-light btn-large" value="Выход" onclick="switchToExitPage()">
+      `
+    }
 
-  function switchToStartScreePage() {
-    switchToState( { pagename:'start-screen' } );
-  }
+    const renderSettingsScreen = () => {
+        setBG('settings.jpg');
 
-  function switchToStartPage() {
-    switchToState( { pagename:'start-page' } );
-  }
+        const backgroundGame = ['bg1.jpg', 'bg2.png', 'bg3.jpg'];
 
-  function switchToSettingsPage() {
-    switchToState( { pagename:'settings-page' } );
-  }
+        const li = backgroundGame.reduce((acc, imgName, index) => {
+            acc +=`<li data-id="${index}" onclick="setBG('${imgName}')">
+                    <img src="${IMG_URL}${imgName}" alt="img"/>
+                </li>`
 
-  function switchToGamePage() {
-    switchToState( { pagename:'game-page' } );
-  }
+            return acc
+        }, '');
 
-  function switchToExitPage() {
-    switchToState( { pagename:'exit-page' } );
-  }
+        return `
+        <h3>Настройки</h3>
+        <div class="game-setting">
+             <label>
+                <input type="checkbox" />
+                <span>Звук</span>
+             </label>
+        </div>
+        <div class="game-setting">
+            <p>Фон</p>
+            <ul class="game-backgrounds">
+                ${li}
+            </ul>
+        </div>
+        <div class="game-setting">
+            <p>Тема</p>
+            <label>
+                <input name="theme" type="radio" checked />
+                <span>Светлая</span>
+            </label>
+            <label>
+                <input name="theme" type="radio" />
+                <span>Темная</span>
+            </label>
+        </div>
+      `
+    }
 
-  switchToStateFromURLHash();
+    // router
+    window.onhashchange = switchToStateFromURLHash;
+
+
+    function switchToStateFromURLHash() {
+        const URLHash = window.location.hash || "#start-screen";
+
+
+        let pageHTML = '';
+
+        switch (URLHash) {
+            case '#start-screen':
+                pageHTML += renderStartScreen();
+                break;
+            case '#start-page':
+                pageHTML += "<h3>Старт</h3>";
+                break;
+            case '#settings-page':
+                pageHTML += renderSettingsScreen();
+                break;
+            case '#game-page':
+                pageHTML += "<h3>Игра</h3>";
+                break;
+            case '#exit-page':
+                pageHTML += "<h3>Выход</h3>";
+                break;
+        }
+        document.getElementById('app').innerHTML = pageHTML;
+
+    }
+
+    function switchToState(newState) {
+        location.hash = newState.pagename;
+    }
+
+    function switchToStartScreePage() {
+        switchToState({pagename: 'start-screen'});
+    }
+
+    function switchToStartPage() {
+        switchToState({pagename: 'start-page'});
+    }
+
+    function switchToSettingsPage() {
+        switchToState({pagename: 'settings-page'});
+    }
+
+    function switchToGamePage() {
+        switchToState({pagename: 'game-page'});
+    }
+
+    function switchToExitPage() {
+        switchToState({pagename: 'exit-page'});
+    }
+
+    switchToStateFromURLHash();
+
 
 </script>
-
-<br>
-<input type=button value='Стартовый экран' onclick='switchToStartScreePage()'>
-<br>
-<input type=button value='Старт' onclick='switchToStartPage()'>
-<br>
-<input type=button value='Настройки' onclick='switchToSettingsPage()'>
-<br>
-<input type=button value='Игра' onclick='switchToGamePage()'>
-<br>
-<input type=button value='Выход' onclick='switchToExitPage()'>
-
 
 </body>
 </html>
