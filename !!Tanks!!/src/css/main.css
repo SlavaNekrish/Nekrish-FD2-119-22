@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .game-zone {
   font-family: 'Montserrat', sans-serif;
   position: relative;
@@ -22,6 +26,14 @@
   width: 16px;
   height: 26px;
   background-image: url(../sprites/bulletBlue2_top.png);
+  background-repeat: no-repeat
+}
+
+.enemy-bullet {
+  position: absolute;
+  width: 16px;
+  height: 26px;
+  background-image: url(../sprites/bulletRed2_top.png);
   background-repeat: no-repeat
 }
 
@@ -124,4 +136,14 @@ span {
   100% {
     color: #000;
   }
+}
+
+.eagle {
+  position: absolute;
+  background-image: url(../sprites/eagle.png);
+  background-repeat: no-repeat;
+  width: 80px;
+  height: 75px;
+  left: 300px;
+  top: 300px;
 }
