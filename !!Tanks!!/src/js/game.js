@@ -270,19 +270,41 @@ const intervals = () => {
               bullet.getBoundingClientRect().bottom > enemy.getBoundingClientRect().top  && 
               bullet.getBoundingClientRect().right > enemy.getBoundingClientRect().left  && 
               bullet.getBoundingClientRect().left < enemy.getBoundingClientRect().right) {
+              const enemyLeft = enemy.getBoundingClientRect().left;
+              const enemyTop = enemy.getBoundingClientRect().top;
+              const playerBack = player.el.style.backgroundImage;
+              console.log(playerBack);
               enemy.parentNode.removeChild(enemy);
               bullet.parentNode.removeChild(bullet);
               points += 1;
               document.querySelector('.inner-points').innerText = points;
+              // добавление и удаление взрыва
+              gameZone.innerHTML += `<div class="ex2" style="left: ${enemyLeft}px; top: ${enemyTop}px"></div>`;
+              gameZone.removeChild(document.querySelector(".player"));
+              gameZone.innerHTML += `<div class="player" style='left: ${player.x}px; top: ${player.y}px; background-image: ${playerBack}'></div>`;  
+              player.el = document.querySelector(".player");
+              setTimeout(() => {
+                gameZone.removeChild((document.querySelectorAll('.ex2')[0]));
+              }, 800);
           }
         } else {
           if (bullet.getBoundingClientRect().bottom > enemy.getBoundingClientRect().top && 
               bullet.getBoundingClientRect().right > enemy.getBoundingClientRect().left  && 
               bullet.getBoundingClientRect().left < enemy.getBoundingClientRect().right) {
+              const enemyLeft = enemy.getBoundingClientRect().left;
+              const enemyTop = enemy.getBoundingClientRect().top;
               enemy.parentNode.removeChild(enemy);
               bullet.parentNode.removeChild(bullet);
               points += 1;
               document.querySelector('.inner-points').innerText = points;
+              // добавление и удаление взрыва
+              gameZone.innerHTML += `<div class="ex2" style="left: ${enemyLeft}px; top: ${enemyTop}px"></div>`;
+              gameZone.removeChild(document.querySelector(".player"));
+              gameZone.innerHTML += `<div class="player" style="left: ${player.x}px; top: ${player.y}px; background-image: url('${player.sprites.bottom}')"></div>`;
+              player.el = document.querySelector(".player");
+              setTimeout(() => {
+                gameZone.removeChild((document.querySelectorAll('.ex2')[0]));
+              }, 800);
           }
         }
       });

@@ -147,3 +147,19 @@ span {
   left: 300px;
   top: 300px;
 }
+
+@keyframes animExplosion
+{
+    from { background: url(../sprites/explosions.png) 0 0; }
+    to { background: url(../sprites/explosions.png) -700px 0; } /* 700-140=560 */
+}
+
+.ex2
+{
+    width: 140px;
+    height: 126px;
+    animation: animExplosion 0.5s steps(5);
+    position: absolute;
+    left: 100px;
+    top: 100px;
+}
