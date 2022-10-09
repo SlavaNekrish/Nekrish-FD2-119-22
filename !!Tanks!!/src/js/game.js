@@ -1,6 +1,5 @@
 // запуск игры
 const game = () => {
-
   init();
   controllers();
   intervals();
@@ -9,15 +8,62 @@ const game = () => {
 // инициализация
 const init = () => {
 
+
   if (player.hp === 0) {
     player.hp = 2;
     points = 0;
+    eagle.hp = 10;
+    document.querySelector('.inner-eaglePoints').innerText = eagle.hp;
+  }
+
+  if (eagle.hp <= 0) {         // рестарт игры после убийства орла
+    player.hp = 2;
+    points = 0;
+    eagle.hp = 10;
+    document.querySelector('.inner-eaglePoints').innerText = eagle.hp;
+
+    clearInterval(ints.enemy);
+    clearInterval(ints.run);
+    clearInterval(ints.bullet);
+    clearInterval(ints.generateEnemy);
+    clearInterval(ints.enemyBullet);
+    clearInterval(ints.checkEnemyBulletForPlayer);
+    clearInterval(ints.enemyShots);
+
+
+
+    let enemies = document.querySelectorAll('.enemy');
+
+    enemies.forEach((enemy) => { 
+      enemy.parentNode.removeChild(enemy);
+    });
+
+    let enemyBullets = document.querySelectorAll('.enemy-bullet');
+
+    enemyBullets.forEach((bullet) => {
+      bullet.parentNode.removeChild(bullet);
+    });
+
+    let bullets = document.querySelectorAll('.bullet');
+
+    bullets.forEach((bullet) => {
+        bullet.parentNode.removeChild(bullet);
+    });
+
+    player.el.parentNode.removeChild(player.el);
+
   }
 
   document.querySelector('.game-over').classList.remove('on');
 
   player.x = gameZone.getBoundingClientRect().width/2 - player.w;
-  player.y = gameZone.getBoundingClientRect().height - player.h;
+  player.y = gameZone.getBoundingClientRect().height/2;
+
+  eagle.el = document.querySelector(".eagle");
+  eagle.x = gameZone.getBoundingClientRect().width/2 - eagle.w - 15;
+  eagle.y = gameZone.getBoundingClientRect().height - eagle.h - 45;
+  eagle.el.style.left = eagle.x + "px";
+  eagle.el.style.top = eagle.y + "px";
 
   gameZone.innerHTML += `<div class="player" style="left: ${player.x}px; top: ${player.y}px"></div>`;
   player.el = document.querySelector(".player");
@@ -316,8 +362,15 @@ const intervals = () => {
                     player.el.getBoundingClientRect().right < enemy.getBoundingClientRect().left
                 ) {
                     // alert('в зоне видимости')
-                    gameZone.innerHTML += `<div class="enemy-bullet" direction="left" style="left: ${enemy.getBoundingClientRect().left}px; top: ${enemy.getBoundingClientRect().top + 30}px; background-image: url('${enemyBulletInit.sprites.left}'); width: 26px; height: 16px"></div>`;
+                    gameZone.innerHTML += `<div class="enemy-bullet" direction="left" style="left: ${enemy.getBoundingClientRect().left - 33}px; top: ${enemy.getBoundingClientRect().top + 25}px; background-image: url('${enemyBulletInit.sprites.left}'); width: 26px; height: 16px"></div>`;
                     player.el = document.querySelector('.player');
+                } if (   // стреляем в орла
+                    eagle.x + eagle.w < enemy.getBoundingClientRect().left &&
+                    eagle.y - 20 < enemy.getBoundingClientRect().top
+                ) {
+                    gameZone.innerHTML += `<div class="enemy-bullet" direction="left" style="left: ${enemy.getBoundingClientRect().left - 33}px; top: ${enemy.getBoundingClientRect().top + 25}px; background-image: url('${enemyBulletInit.sprites.left}'); width: 26px; height: 16px"></div>`;
+                    player.el = document.querySelector('.player');
+                    eagle.el = document.querySelector('.eagle');
                 }
                 if (enemy.getBoundingClientRect().left <= 0) {
                     enemy.parentNode.removeChild(enemy);
@@ -331,8 +384,16 @@ const intervals = () => {
                     player.el.getBoundingClientRect().top < enemy.getBoundingClientRect().bottom &&
                     player.el.getBoundingClientRect().left > enemy.getBoundingClientRect().right
                 ) {
+                    gameZone.innerHTML += `<div class="enemy-bullet" direction="right" style="left: ${enemy.getBoundingClientRect().right - 7}px; top: ${enemy.getBoundingClientRect().top + enemy.getBoundingClientRect().height / 2 - 15}px; background-image: url('${enemyBulletInit.sprites.right}'); width: 26px; height: 16px""></div>`;
+                    player.el = document.querySelector('.player');
+                } 
+                  if (   // стреляем в орла
+                    eagle.x > enemy.getBoundingClientRect().right && 
+                    eagle.y - 20 < enemy.getBoundingClientRect().top
+                ) {
                     gameZone.innerHTML += `<div class="enemy-bullet" direction="right" style="left: ${enemy.getBoundingClientRect().right}px; top: ${enemy.getBoundingClientRect().top + enemy.getBoundingClientRect().height / 2 - 10}px; background-image: url('${enemyBulletInit.sprites.right}'); width: 26px; height: 16px""></div>`;
                     player.el = document.querySelector('.player');
+                    eagle.el = document.querySelector('.eagle');
                 }
 
                 if (enemy.getBoundingClientRect().left >= gameZone.getBoundingClientRect().width) {
@@ -348,8 +409,18 @@ const intervals = () => {
                     player.el.getBoundingClientRect().right > enemy.getBoundingClientRect().left &&
                     player.el.getBoundingClientRect().right < enemy.getBoundingClientRect().right
                 ) {
-                    gameZone.innerHTML += `<div class="enemy-bullet" direction="top" style="left: ${enemy.getBoundingClientRect().left + enemy.getBoundingClientRect().width / 2 - 10}px; top: ${enemy.getBoundingClientRect().top}px; background-image: url('${enemyBulletInit.sprites.top}'"></div>`;
+                    gameZone.innerHTML += `<div class="enemy-bullet" direction="top" style="left: ${enemy.getBoundingClientRect().left + enemy.getBoundingClientRect().width / 2 - 17}px; top: ${enemy.getBoundingClientRect().top - 35}px; background-image: url('${enemyBulletInit.sprites.top}'"></div>`;
                     player.el = document.querySelector('.player');
+                }
+                
+                if (      // стреляем в орла
+                    eagle.y < enemy.getBoundingClientRect().top &&
+                    eagle.x + eagle.w > enemy.getBoundingClientRect().left &&
+                    eagle.x + eagle.w < enemy.getBoundingClientRect().right
+                ) {
+                    gameZone.innerHTML += `<div class="enemy-bullet" direction="top" style="left: ${enemy.getBoundingClientRect().left + enemy.getBoundingClientRect().width / 2 - 17}px; top: ${enemy.getBoundingClientRect().top - 35}px; background-image: url('${enemyBulletInit.sprites.top}'"></div>`;
+                    player.el = document.querySelector('.player');
+                    eagle.el = document.querySelector('.eagle');
                 }
 
                 if (enemy.getBoundingClientRect().top <= 0) {
@@ -365,8 +436,18 @@ const intervals = () => {
                     player.el.getBoundingClientRect().right > enemy.getBoundingClientRect().left &&
                     player.el.getBoundingClientRect().right < enemy.getBoundingClientRect().right
                 ) {
-                    gameZone.innerHTML += `<div class="enemy-bullet" direction="bottom" style="left: ${enemy.getBoundingClientRect().left + enemy.getBoundingClientRect().width / 2 - 10}px; top: ${enemy.getBoundingClientRect().bottom}px; background-image: url('${enemyBulletInit.sprites.bottom}'"></div>`;
+                    gameZone.innerHTML += `<div class="enemy-bullet" direction="bottom" style="left: ${enemy.getBoundingClientRect().left + enemy.getBoundingClientRect().width / 2 - 15}px; top: ${enemy.getBoundingClientRect().bottom - 8}px; background-image: url('${enemyBulletInit.sprites.bottom}'"></div>`;
                     player.el = document.querySelector('.player');
+                }
+
+                if (      // стреляем в орла
+                    eagle.y > enemy.getBoundingClientRect().bottom &&
+                    eagle.x + eagle.w > enemy.getBoundingClientRect().left &&
+                    eagle.x + eagle.w < enemy.getBoundingClientRect().right
+                ) {
+                    gameZone.innerHTML += `<div class="enemy-bullet" direction="bottom" style="left: ${enemy.getBoundingClientRect().left + enemy.getBoundingClientRect().width / 2 - 15}px; top: ${enemy.getBoundingClientRect().bottom - 8}px; background-image: url('${enemyBulletInit.sprites.bottom}'"></div>`;
+                    player.el = document.querySelector('.player');
+                    eagle.el = document.querySelector('.eagle');
                 }
 
                 if (enemy.getBoundingClientRect().bottom >= gameZone.getBoundingClientRect().height) {
@@ -401,6 +482,21 @@ const intervals = () => {
               next();
               bullet.parentNode.removeChild(bullet);
           }
+
+          if (
+              bullet.getBoundingClientRect().top < eagle.y + eagle.h + 10 &&
+              bullet.getBoundingClientRect().bottom > eagle.y + 10 &&
+              bullet.getBoundingClientRect().right > eagle.x &&
+              bullet.getBoundingClientRect().left < eagle.x + eagle.w
+          ) {
+              eagle.hp -= 1;
+              document.querySelector('.inner-eaglePoints').innerText = eagle.hp;
+              bullet.parentNode.removeChild(bullet);
+              if (eagle.hp === 0) {
+                gameOver()
+              }
+          }
+
       } else {
           if (
               bullet.getBoundingClientRect().bottom > player.el.getBoundingClientRect().top &&
@@ -410,8 +506,20 @@ const intervals = () => {
               next();
               bullet.parentNode.removeChild(bullet);
           }
-      }
 
+          if (
+            bullet.getBoundingClientRect().bottom > eagle.y &&
+            bullet.getBoundingClientRect().right > eagle.x &&
+            bullet.getBoundingClientRect().left < eagle.x + eagle.w
+          ) {
+              eagle.hp -= 1;
+              document.querySelector('.inner-eaglePoints').innerText = eagle.hp;
+              bullet.parentNode.removeChild(bullet);
+              if (eagle.hp === 0) {
+                gameOver()
+              }
+          }
+      }
    });
   }, fps)
 }
@@ -527,12 +635,13 @@ enemyBulletInit = {          //  Changed! 5th
 enemyGenerateSpeed = 1000,
 enemyShotsSpeed = 500,
 eagle = {                   //  Changed! 
+  el: false,
   x: 500,
   y: 500,
   w: 80,
   h: 75,
   hp: 10, 
-}
+},
 ints = {
   run: false,
   bullet: false,
