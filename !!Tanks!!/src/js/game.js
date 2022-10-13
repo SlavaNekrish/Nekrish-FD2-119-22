@@ -12,17 +12,17 @@
     }
 
     const renderStartScreen = () => {
-        setBG('Mult-tank.png')
+        setBG('Mult-tank.png');
 
         return `
         <div class="transf-wrap">
           <div class="start-wrap">
             <h2>!!Tanks 2D!!</h2>
-            <input type="button" class="waves-effect waves-light btn-large" value="Старт!!" onclick="switchToGamePage()">
+            <input type="button" class="waves-effect waves-light btn-large" value="Старт" onclick="switchToGamePage()">
             <br>
-            <input type="button" class="waves-effect waves-light btn-large" value="Настройки!!" onclick="switchToSettingsPage()">
+            <input type="button" class="waves-effect waves-light btn-large" value="Настройки" onclick="switchToSettingsPage()">
             <br>
-            <input type="button" class="waves-effect waves-light btn-large" value="Выход!!" onclick="switchToExitPage()">
+            <input type="button" class="waves-effect waves-light btn-large" value="Выход" onclick="switchToExitPage()">
           </div>
         </div>
       `
@@ -30,6 +30,9 @@
 
     const renderGamePage = () => {
       document.querySelector('body').style.backgroundImage = `none`;
+      document.querySelector('body').style.backgroundSize = "none";
+      document.querySelector('body').style.backgroundRepeat = "none";
+      document.querySelector('body').style.backgroundPosition = "none";
 
       return `
       <div class="game-zone">
@@ -55,50 +58,58 @@
     `
   }
 
-//     const renderSettingsScreen = () => {
-//         setBG('settings.jpg');
+    const renderSettingsScreen = () => {
+        setBG('settings.png');
+        document.querySelector('body').style.minHeight = `90vh`;
 
-//         const backgroundGame = ['bg1.jpg', 'bg2.png', 'bg3.jpg'];
+        const backgroundGame = ['tileSand1.png', 'tileGrass1.png', 'tileSand2.png'];
 
-//         const li = backgroundGame.reduce((acc, imgName, index) => {
-//             acc +=`<li data-id="${index}" onclick="setBG('${imgName}')">
-//                     <img src="${IMG_URL}${imgName}" alt="img"/>
-//                 </li>`
+        const li = backgroundGame.reduce((acc, imgName, index) => {
+            acc +=`<li data-id="${index}" onclick="setBG('${imgName}')">
+                    <img src="${IMG_URL}${imgName}" alt="img"/>
+                </li>`
 
-//             return acc
-//         }, '');
+            return acc
+        }, '');
 
-//         return `
-//         <h3>Настройки</h3>
-//         <div class="game-setting">
-//              <label>
-//                 <input type="checkbox" />
-//                 <span>Звук</span>
-//              </label>
-//         </div>
-//         <div class="game-setting">
-//             <p>Фон</p>
-//             <ul class="game-backgrounds">
-//                 ${li}
-//             </ul>
-//         </div>
-//         <div class="game-setting">
-//             <p>Тема</p>
-//             <label>
-//                 <input name="theme" type="radio" checked />
-//                 <span>Светлая</span>
-//             </label>
-//             <label>
-//                 <input name="theme" type="radio" />
-//                 <span>Темная</span>
-//             </label>
-//         </div>
-//       `
-//     }
+        return `
+        <div class="setting">
+        <h3>Настройки</h3>
+        <div class="game-setting">
+             <label>
+                <input type="checkbox" />
+                <span>Звук</span>
+             </label>
+        </div>
+        <div class="game-setting">
+            <p>Фон</p>
+            <ul class="game-backgrounds">
+                ${li}
+            </ul>
+        </div>
+        <div class="game-setting">
+            <p>Тема</p>
+            <label>
+                <input name="theme" type="radio" checked />
+                <span>Светлая</span>
+            </label>
+            <label>
+                <input name="theme" type="radio" />
+                <span>Темная</span>
+            </label>
+        </div>
+        <div class="game-setting">
+          <h4>Правила игры:</h4>
+          <h5>Управление - стрелками в правой части клавиатуры. Выстрел - пробелом. У танка игрока - 2 жизни.<br> Также проиграть можно, если Орел разрушен танками врага. У Орла - 10 жизней.</h5>
+        </div>
+        </div>
+      `
+    }
 
 //     // router
     window.onhashchange = switchToStateFromURLHash;
 
+    
 
     function switchToStateFromURLHash() {
         const URLHash = window.location.hash || "#start-screen";
@@ -124,11 +135,10 @@
                 break;
         }
         document.getElementById('app').innerHTML = pageHTML;
-        setTimeout(() => {
-          game();
-        }, 100)
-    }
-
+        
+          superWrap();
+        
+      }
     function switchToState(newState) {
         location.hash = newState.pagename;
     }
@@ -156,16 +166,26 @@
     switchToStateFromURLHash();
 
 
+// ИГРА
+function superWrap() {  
 // запуск игры
-let game = () => {
+function game () {
   init();
   controllers();
   intervals();
+  playMusic()
 }
 
 // инициализация
 const init = () => {
 
+  clearInterval(ints.enemy);
+  clearInterval(ints.run);
+  clearInterval(ints.bullet);
+  clearInterval(ints.generateEnemy);
+  clearInterval(ints.enemyBullet);
+  clearInterval(ints.checkEnemyBulletForPlayer);
+  clearInterval(ints.enemyShots);
 
   if (player.hp === 0) {
     player.hp = 2;
@@ -289,6 +309,15 @@ const next = () => {
 
 // плавность движения игрока
 const intervals = () => {
+
+  clearInterval(ints.enemy);
+  clearInterval(ints.run);
+  clearInterval(ints.bullet);
+  clearInterval(ints.generateEnemy);
+  clearInterval(ints.enemyBullet);
+  clearInterval(ints.checkEnemyBulletForPlayer);
+  clearInterval(ints.enemyShots);
+
   ints.run = setInterval(() => {
     if (player.run) {
 
@@ -771,6 +800,9 @@ function randomInteger(min, max) {
   return Math.round(rand);
 }
 
+const playMusic = () => {
+  
+}
 
 // список переменных
 let gameZone = document.querySelector(".game-zone"),
@@ -832,5 +864,6 @@ ints = {
   test: false,
 };
 
+  game();
+}
 
-// game();
