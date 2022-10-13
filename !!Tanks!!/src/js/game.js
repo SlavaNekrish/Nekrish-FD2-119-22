@@ -25,6 +25,9 @@
             <input type="button" class="waves-effect waves-light btn-large" value="Выход" onclick="switchToExitPage()">
           </div>
         </div>
+        <audio id="Aud" autoplay="autoplay">
+          <source src="src/audio/startSound.mp3" type="audio/mpeg">
+        </audio>
       `
     }
 
@@ -103,6 +106,9 @@
           <h5>Управление - стрелками в правой части клавиатуры. Выстрел - пробелом. У танка игрока - 2 жизни.<br> Также проиграть можно, если Орел разрушен танками врага. У Орла - 10 жизней.</h5>
         </div>
         </div>
+        <audio id="Aud" autoplay="autoplay">
+          <source src="src/audio/settingsSound.mp3" type="audio/mpeg">
+        </audio>
       `
     }
 
