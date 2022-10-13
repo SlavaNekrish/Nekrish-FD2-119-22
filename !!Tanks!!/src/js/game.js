@@ -1,5 +1,163 @@
+"use strict";
+
+// // Организация SPA
+
+//     //render function
+
+    const IMG_URL = 'src/sprites/';
+
+    const setBG = imgName => {
+        const body = document.querySelector('body');
+        body.style.backgroundImage = `url(${IMG_URL}${imgName})`
+    }
+
+    const renderStartScreen = () => {
+        setBG('Mult-tank.png')
+
+        return `
+        <div class="transf-wrap">
+          <div class="start-wrap">
+            <h2>!!Tanks 2D!!</h2>
+            <input type="button" class="waves-effect waves-light btn-large" value="Старт!!" onclick="switchToGamePage()">
+            <br>
+            <input type="button" class="waves-effect waves-light btn-large" value="Настройки!!" onclick="switchToSettingsPage()">
+            <br>
+            <input type="button" class="waves-effect waves-light btn-large" value="Выход!!" onclick="switchToExitPage()">
+          </div>
+        </div>
+      `
+    }
+
+    const renderGamePage = () => {
+      document.querySelector('body').style.backgroundImage = `none`;
+
+      return `
+      <div class="game-zone">
+      <div class="panel">
+        <div class="info">
+          <span class="player-name">Имя игрока: <span class="inner-name">Слава</span></span>
+          <span class="points">Очки: <span class="inner-points">0</span></span>
+          <span class="Eaglepoints">Орёл: <span class="inner-eaglePoints">10</span></span>
+        </div>
+     <div class="life">
+     </div>
+      <div class="eagle"></div> 
+    </div>
+    
+      <div class="game-over">
+        <div class="game-over-info"> 
+          <span>Game Over</span>
+          <a href="#" onclick="game()">Restart Game</a>
+        </div>
+        <div class="blur"></div>
+      </div>
+    </div>
+    `
+  }
+
+//     const renderSettingsScreen = () => {
+//         setBG('settings.jpg');
+
+//         const backgroundGame = ['bg1.jpg', 'bg2.png', 'bg3.jpg'];
+
+//         const li = backgroundGame.reduce((acc, imgName, index) => {
+//             acc +=`<li data-id="${index}" onclick="setBG('${imgName}')">
+//                     <img src="${IMG_URL}${imgName}" alt="img"/>
+//                 </li>`
+
+//             return acc
+//         }, '');
+
+//         return `
+//         <h3>Настройки</h3>
+//         <div class="game-setting">
+//              <label>
+//                 <input type="checkbox" />
+//                 <span>Звук</span>
+//              </label>
+//         </div>
+//         <div class="game-setting">
+//             <p>Фон</p>
+//             <ul class="game-backgrounds">
+//                 ${li}
+//             </ul>
+//         </div>
+//         <div class="game-setting">
+//             <p>Тема</p>
+//             <label>
+//                 <input name="theme" type="radio" checked />
+//                 <span>Светлая</span>
+//             </label>
+//             <label>
+//                 <input name="theme" type="radio" />
+//                 <span>Темная</span>
+//             </label>
+//         </div>
+//       `
+//     }
+
+//     // router
+    window.onhashchange = switchToStateFromURLHash;
+
+
+    function switchToStateFromURLHash() {
+        const URLHash = window.location.hash || "#start-screen";
+
+
+        let pageHTML = '';
+
+        switch (URLHash) {
+            case '#start-screen':
+                pageHTML += renderStartScreen();
+                break;
+            case '#start-page':
+                pageHTML += "<h3>Старт</h3>";
+                break;
+            case '#settings-page':
+                pageHTML += renderSettingsScreen();
+                break;
+            case '#game-page':
+                pageHTML += renderGamePage();
+                break;
+            case '#exit-page':
+                pageHTML += "<h3>Выход</h3>";
+                break;
+        }
+        document.getElementById('app').innerHTML = pageHTML;
+        setTimeout(() => {
+          game();
+        }, 100)
+    }
+
+    function switchToState(newState) {
+        location.hash = newState.pagename;
+    }
+
+    function switchToStartScreePage() {
+        switchToState({pagename: 'start-screen'});
+    }
+
+    function switchToStartPage() {
+        switchToState({pagename: 'start-page'});
+    }
+
+    function switchToSettingsPage() {
+        switchToState({pagename: 'settings-page'});
+    }
+
+    function switchToGamePage() {
+        switchToState({pagename: 'game-page'});
+    }
+
+    function switchToExitPage() {
+        switchToState({pagename: 'exit-page'});
+    }
+
+    switchToStateFromURLHash();
+
+
 // запуск игры
-const game = () => {
+let game = () => {
   init();
   controllers();
   intervals();
@@ -273,7 +431,6 @@ const intervals = () => {
               const enemyLeft = enemy.getBoundingClientRect().left;
               const enemyTop = enemy.getBoundingClientRect().top;
               const playerBack = player.el.style.backgroundImage;
-              console.log(playerBack);
               enemy.parentNode.removeChild(enemy);
               bullet.parentNode.removeChild(bullet);
               points += 1;
@@ -676,4 +833,4 @@ ints = {
 };
 
 
-game();
+// game();

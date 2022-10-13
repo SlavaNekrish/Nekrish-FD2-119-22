@@ -2,13 +2,24 @@
   box-sizing: border-box;
 }
 
+body {
+  /* background-repeat: no-repeat;
+  background-position: top center; */
+  /* background-size: 82%; */
+}
+
+h2 {
+  font-family: 'Silkscreen', cursive;
+  font-size: 50px;
+}
+
 .game-zone {
   font-family: 'Montserrat', sans-serif;
   position: relative;
   min-height: 97vh;
   padding: 0;
   margin: 0;
-  background-image: url(../sprites/tileSand1.png);
+  background-image: url(../sprites/tileGrass1.png);
   font-weight: bold;
   
 }
@@ -99,7 +110,7 @@ span {
   position: absolute;
   width: 100%;
   height: 97vh;
-  background-image: url(../sprites/bg-game-over.png);
+  background-image: url(../sprites/bg-game-over2.png);
   background-repeat: no-repeat;
   background-size: cover;
   -webkit-filter: blur(10px);
@@ -163,3 +174,37 @@ span {
     left: 100px;
     top: 100px;
 }
+
+.transf-wrap {
+  display: inline-block;
+  transition: all 2s ease-in-out;
+  transform: translateY(20%);
+}
+
+.start-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.waves-effect{
+  width: 300px;
+  padding: 0;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Silkscreen', cursive;
+  font-weight: bolder;
+}
+
+.btn-large {
+  font-family: 'Silkscreen', cursive;
+  font-weight: bolder;
+  background-color: #72d6fa;
+}
+
+.waves-light {
+  font-family: 'Silkscreen', cursive;
+  font-weight: bolder;
+}
+
