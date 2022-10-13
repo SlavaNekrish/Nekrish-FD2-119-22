@@ -120,23 +120,24 @@
         switch (URLHash) {
             case '#start-screen':
                 pageHTML += renderStartScreen();
+                document.getElementById('app').innerHTML = pageHTML;
                 break;
             case '#start-page':
                 pageHTML += "<h3>Старт</h3>";
                 break;
             case '#settings-page':
                 pageHTML += renderSettingsScreen();
+                document.getElementById('app').innerHTML = pageHTML;
                 break;
             case '#game-page':
                 pageHTML += renderGamePage();
+                document.getElementById('app').innerHTML = pageHTML;
+                superWrap();
                 break;
             case '#exit-page':
                 pageHTML += "<h3>Выход</h3>";
                 break;
         }
-        document.getElementById('app').innerHTML = pageHTML;
-        
-          superWrap();
         
       }
     function switchToState(newState) {
@@ -173,7 +174,6 @@ function game () {
   init();
   controllers();
   intervals();
-  playMusic()
 }
 
 // инициализация
@@ -246,6 +246,8 @@ const init = () => {
   gameZone.innerHTML += `<div class="player" style="left: ${player.x}px; top: ${player.y}px"></div>`;
   player.el = document.querySelector(".player");
 
+  playGameMusic();
+
   switch (player.hp) {
     case 2:
      document.querySelector('.life').innerHTML = `<img src="src/sprites/heart-1.png" class="life_image" alt="heart">`
@@ -262,6 +264,7 @@ const init = () => {
 
 const gameOver = () => {
   document.querySelector('.game-over').classList.add('on');
+  gameMusic.pause();
 }
 
 // Restart Game
@@ -800,10 +803,21 @@ function randomInteger(min, max) {
   return Math.round(rand);
 }
 
-const playMusic = () => {
-  
+// Music
+
+const startMusic = new Audio ("src/audio/startSound.mp3");
+startMusic.volume = 0.5;
+const playStartMusic = () => {
+  startMusic.currentTime = 0;
+  startMusic.play();
 }
 
+const gameMusic = new Audio ("src/audio/gameSound.mp3");
+gameMusic.volume = 0.5;
+const playGameMusic = () => {
+  gameMusic.currentTime = 0;
+  gameMusic.play();
+}
 // список переменных
 let gameZone = document.querySelector(".game-zone"),
 points = 0,

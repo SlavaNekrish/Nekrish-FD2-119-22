@@ -1,0 +1,83 @@
+!<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+<input type="text" name="name" value="name">
+<input type="text" name="value" value="value">
+<input type=button value='Create' onclick='createTask()'>
+<input type=button value='Update' onclick='updateTask()'>
+<input type=button value='Read' onclick='readTask()'>
+<input type=button value='Delete' onclick='deleteTask()'>
+
+
+
+<!-- <input type=button value='Запомнить меня' onclick='storeInfo()'> -->
+
+<script src="https://fe.it-academy.by/JQ/jquery.js"></script>
+<script>
+
+const url="https://fe.it-academy.by/AjaxStringStorage2.php";
+// let updatePassword;
+
+// const arr = [
+//     {
+//         name: "Ivan",
+//         age: 25
+//     },
+//     {
+//         name: "Petr",
+//         age: 30
+//     },
+//     {
+//         name: "Sidr",
+//         age: 35 
+//     }
+// ]
+
+function createTask() {
+    // updatePassword=Math.random();
+
+    const stringName = document.querySelector('[name="name"]').value;
+    console.log('------name', stringName);
+    const stringValue = document.querySelector('[name="value"]').value;
+    console.log('------value', stringValue);
+    $.ajax( {
+            url, type : 'POST', cache : false, dataType:'json',
+            data : { f : 'INSERT', n : stringName, v : JSON.stringify(stringValue) },
+            success : insertReady, error : errorHandler
+        }
+    );
+    
+}
+
+// function lockGetReady(data){
+//     console.log('------data', data);
+
+//     $.ajax( {
+//             url, type : 'POST', cache : false, dataType:'json',
+//             data : { f : 'INSERT', n : stringName, p : updatePassword },
+//             success : lockGetReady, error : errorHandler
+//         }
+//     );
+// }
+
+function insertReady(data){
+    console.log('------data', data);
+}
+
+
+function errorHandler(jqXHR,statusStr,errorStr) {
+    alert(statusStr+' '+errorStr);
+}
+
+
+</script>
+</body>
+</html>
