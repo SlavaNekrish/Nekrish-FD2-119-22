@@ -1,0 +1,7 @@
+@import "variables";
+
+@mixin setBg($className, $type){
+  &.#{$className}{
+    background-image: url($img_url + '#{$className}.#{$type}');
+  }
+}

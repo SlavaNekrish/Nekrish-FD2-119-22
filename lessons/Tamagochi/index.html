@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,7 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="css/style.css">
+<!--    <link rel="stylesheet" href="css/darkStyle.css">-->
     <title>Document</title>
 </head>
 <body>
@@ -32,13 +34,25 @@
 
     const IMG_URL = 'img/';
 
-    const setBG = imgName => {
+    const isDarkTheme = localStorage.getItem('isDarkTheme');
+
+    // if(isDarkTheme === 'yes'){
+    //     document.styleSheets[1].disabled = true;
+    //     document.styleSheets[2].disabled = false;
+    // } else{
+    //     document.styleSheets[1].disabled = false;
+    //     document.styleSheets[2].disabled = true;
+    // }
+
+    const setBG = myClassName => {
+
         const body = document.querySelector('body');
-        body.style.backgroundImage = `url(${IMG_URL}${imgName})`
+        body.className = myClassName
     }
 
     const renderStartScreen = () => {
-        setBG('start.jpg')
+        if(isDarkTheme === 'yes') setBG('start')
+        else setBG('start-dark')
 
         return `
         <h3>Стартовый экран</h3>
@@ -53,12 +67,18 @@
     const renderSettingsScreen = () => {
         setBG('settings.jpg');
 
-        const backgroundGame = ['bg1.jpg', 'bg2.png', 'bg3.jpg'];
+        let backgroundGame;
+        if(isDarkTheme === 'yes'){
+            backgroundGame = ['bg1', 'bg2', 'bg3'];
+        } else {
+            backgroundGame = ['bg4', 'bg5', 'bg6'];
+        }
 
         const li = backgroundGame.reduce((acc, imgName, index) => {
-            acc +=`<li data-id="${index}" onclick="setBG('${imgName}')">
-                    <img src="${IMG_URL}${imgName}" alt="img"/>
-                </li>`
+            acc +=`<li
+                    data-id="${index}"
+                    class="${imgName}"
+                    onclick="setBG('${imgName}')"></li>`
 
             return acc
         }, '');
@@ -67,7 +87,7 @@
         <h3>Настройки</h3>
         <div class="game-setting">
              <label>
-                <input type="checkbox" />
+                <input type="checkbox" id="sound"/>
                 <span>Звук</span>
              </label>
         </div>
@@ -147,6 +167,31 @@
     }
 
     switchToStateFromURLHash();
+
+
+    //sounds
+    const mainTheme = new Audio('sounds/main.mp3');
+
+    //events
+    const sound = document.getElementById('sound');
+
+
+    // TODO решить проблему с переходом по страницам
+
+
+
+
+    sound?.addEventListener('click', (e) => {
+        console.log(e.target.checked)
+        if(e.target.checked){
+            mainTheme.play();
+            mainTheme.currentTime=0;
+        } else{
+            mainTheme.pause();
+        }
+    })
+
+
 
 
 </script>

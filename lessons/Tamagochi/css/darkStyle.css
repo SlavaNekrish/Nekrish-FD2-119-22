@@ -11,14 +11,14 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom center; }
-  body.start {
-    background-image: url("../img/start.jpg"); }
-  body.bg1 {
-    background-image: url("../img/bg1.jpg"); }
-  body.bg2 {
-    background-image: url("../img/bg2.png"); }
-  body.bg3 {
-    background-image: url("../img/bg3.jpg"); }
+  body.start-dark {
+    background-image: url("../img/start-dark.webp"); }
+  body.bg4 {
+    background-image: url("../img/bg4.webp"); }
+  body.bg5 {
+    background-image: url("../img/bg5.jpg"); }
+  body.bg6 {
+    background-image: url("../img/bg6.png"); }
 
 #app {
   text-align: center;
@@ -56,12 +56,12 @@ body {
   -webkit-transition: 0.5s;
   transition: 0.5s;
   background-size: contain; }
-  .game-backgrounds li.bg1 {
-    background-image: url("../img/bg1.jpg"); }
-  .game-backgrounds li.bg2 {
-    background-image: url("../img/bg2.png"); }
-  .game-backgrounds li.bg3 {
-    background-image: url("../img/bg3.jpg"); }
+  .game-backgrounds li.bg4 {
+    background-image: url("../img/bg4.webp"); }
+  .game-backgrounds li.bg5 {
+    background-image: url("../img/bg5.jpg"); }
+  .game-backgrounds li.bg6 {
+    background-image: url("../img/bg6.png"); }
 
 .game-backgrounds li img:hover {
   -webkit-transform: scale(1.1);
